@@ -1,4 +1,4 @@
-import urllib3 
+import urllib3
 import json
 import logging
 
