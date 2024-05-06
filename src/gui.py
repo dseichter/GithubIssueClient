@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # #########################################################################
-# # Python code generated with wxFormBuilder (version 4.1.0-7eed02ed)
+# # Python code generated with wxFormBuilder (version 4.1.0-65681cfc)
 # # http://www.wxformbuilder.org/
 # #
 # # PLEASE DO *NOT* EDIT THIS FILE!
@@ -13,6 +13,7 @@ import wx.xrc
 ID_CLOSE = 1000
 ID_CONFIGURATION = 1001
 ID_ABOUT = 1002
+
 
 # #########################################################################
 # # Class MainFrame
@@ -213,6 +214,7 @@ class dialogConfiguration(wx.Dialog):
 
     def __del__(self):
         pass
+
 # #########################################################################
 # # Class dialogAbout
 # #########################################################################
