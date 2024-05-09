@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # #########################################################################
-# # Python code generated with wxFormBuilder (version 4.1.0-65681cfc)
+# # Python code generated with wxFormBuilder (version 4.1.0-69d57cd9)
 # # http://www.wxformbuilder.org/
 # #
 # # PLEASE DO *NOT* EDIT THIS FILE!
@@ -23,7 +23,7 @@ ID_ABOUT = 1002
 class MainFrame(wx.Frame):
 
     def __init__(self, parent):
-        wx.Frame.__init__(self, parent, id=wx.ID_ANY, title=u"GitHub Issue Client", pos=wx.DefaultPosition, size=wx.Size(534, 562), style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
+        wx.Frame.__init__(self, parent, id=wx.ID_ANY, title=u"GitHub Issue Client", pos=wx.DefaultPosition, size=wx.Size(543, 378), style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
         self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
@@ -107,7 +107,7 @@ class MainFrame(wx.Frame):
         self.statictextIssueContent.Wrap(-1)
 
         fgSizer1.Add(self.statictextIssueContent, 0, wx.ALL, 5)
-        self.textIssueContent = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0)
+        self.textIssueContent = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_DONTWRAP | wx.TE_MULTILINE)
         fgSizer1.Add(self.textIssueContent, 1, wx.ALL | wx.EXPAND, 5)
 
         fgSizer1.Add((0, 0), 1, wx.EXPAND, 5)
