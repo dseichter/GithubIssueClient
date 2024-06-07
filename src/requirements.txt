@@ -1,2 +1,4 @@
 wxPython==4.2.1
 urllib3==2.2.1
+pyinstaller==6.7.0
+PyGithub==2.3.0

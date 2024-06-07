@@ -2,14 +2,17 @@ import urllib3
 import json
 import logging
 
-VERSION = "1.0.0"
-URL = 'https://api.github.com/repos/dseichter/GithubIssueClient/releases/latest'
+VERSION = "v2024-05-23"
+UPDATEURL = 'https://api.github.com/repos/dseichter/GithubIssueClient/releases/latest'
+RELEASES = 'https://github.com/dseichter/GithubIssueClient/releases'
+NAME = 'GithubIssueClient'
+LICENCE = 'GPL-3.0'
 
 
 def check_for_new_release():
     try:
         http = urllib3.PoolManager()
-        r = http.request('GET', URL)
+        r = http.request('GET', UPDATEURL)
         data = json.loads(r.data.decode('utf-8'))
         latest_version = data['tag_name']
         return latest_version != VERSION

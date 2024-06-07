@@ -7,6 +7,10 @@ Create new tasks in your GitHub repositories. See current Freeware version of Gi
 ![pep8](https://github.com/dseichter/GithubIssueClient/actions/workflows/pep8.yml/badge.svg)
 ![trivy](https://github.com/dseichter/GithubIssueClient/actions/workflows/trivy.yml/badge.svg)
 
+## First draft of new window
+
+![Main Window](images/mainwindow.png)
+
 ## Start development
 
 Create and activate an environment by running the following command:
