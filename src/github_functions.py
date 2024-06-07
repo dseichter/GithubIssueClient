@@ -1,44 +1,46 @@
 import settings
 from github import Github
 
-# Authentication is defined via github.Auth
-from github import Auth
 
-
-# load all repositories from the user
-def get_repos():
+def github_connection():
     # get the config
     config = settings.read_config()
     # check if we should use github or ghe
     if config['use_github']:
-        g = Github(config['personal_access_token'])
+        return Github(config['personal_access_token'])
     else:
-        g = Github(config['personal_access_token'], base_url=config['ghe_url'])
+        return Github(config['personal_access_token'], base_url=config['ghe_url'])
+
+
+# load all repositories from the user
+def get_repos():
+    # check if we should use github or ghe
+    g = github_connection()
     # get the user
     user = g.get_user()
     # get all repos
-    print(user.get_repos())
-    for repo in user.get_repos():
-        print(repo.full_name)
     return user.get_repos()
 
 
 def get_labels(repo):
-    print(repo.get_labels())
-    for label in repo.get_labels():
-        print(label.name)
+    g = github_connection()
+    # load all labels from the repository
+    repo = g.get_repo(repo)
+    return repo.get_labels()
 
 
 def get_milestones(repo):
-    print(repo.get_milestones())
-    for milestone in repo.get_milestones():
-        print(milestone.title)
+    g = github_connection()
+    # load all labels from the repository
+    repo = g.get_repo(repo)
+    return repo.get_milestones(state='open')
 
 
 def get_assignees(repo):
-    print(repo.get_assignees())
-    for assignee in repo.get_assignees():
-        print(assignee.login)
+    g = github_connection()
+    # load all labels from the repository
+    repo = g.get_repo(repo)
+    return repo.get_assignees()
 
 
 def create_issue(repo, title, body, assignee, milestone, labels):

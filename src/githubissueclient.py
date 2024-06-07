@@ -38,6 +38,9 @@ class GitHubIssueClientFrame(gui.MainFrame):
         # add the version to the label
         self.SetTitle(helper.NAME + ' ' + helper.VERSION)
 
+        self.Layout()
+        self.Fit()
+
     def miFileClose(self, event):
         self.Close()
 
@@ -65,14 +68,28 @@ class GitHubIssueClientFrame(gui.MainFrame):
         dlg.Destroy()
 
     def loadRepositories(self, event):
-        # TODO: implement me
-        github_functions.get_repos()
+        self.comboboxRepositories.Clear()
+        repos = github_functions.get_repos()
+        for repo in repos:
+            self.comboboxRepositories.Append(repo.full_name)
+            print(repo.full_name)
         event.Skip()
 
     def loadRepositoryData(self, event):
+        repo = self.comboboxRepositories.GetValue()
         # load the labels
+        labels = github_functions.get_labels(repo)
+        for v in labels:
+            print(v.name)
+            self.listboxLabels.Append(v.name)
         # load the milestones
+        milestones = github_functions.get_milestones(repo)
+        for milestone in milestones:
+            self.comboboxMilestones.Append(milestone.title)
         # load assignees
+        assignees = github_functions.get_assignees(repo)
+        for assignee in assignees:
+            self.comboboxAssignees.Append(assignee.name)
         event.Skip()
 
     def openRepository(self, event):
