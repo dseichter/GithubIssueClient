@@ -21,6 +21,13 @@ def get_repos():
     # get all repos
     return user.get_repos()
 
+# load one single repo
+def get_repo(repo):
+    # check if we should use github or ghe
+    g = github_connection()
+    # get all repos
+    return g.get_repo(repo)
+
 
 def get_labels(repo):
     g = github_connection()

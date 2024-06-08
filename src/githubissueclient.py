@@ -73,7 +73,6 @@ class GitHubIssueClientFrame(gui.MainFrame):
         for repo in repos:
             self.comboboxRepositories.Append(repo.full_name)
             print(repo.full_name)
-        event.Skip()
 
     def loadRepositoryData(self, event):
         repo = self.comboboxRepositories.GetValue()
@@ -90,10 +89,10 @@ class GitHubIssueClientFrame(gui.MainFrame):
         assignees = github_functions.get_assignees(repo)
         for assignee in assignees:
             self.comboboxAssignees.Append(assignee.name)
-        event.Skip()
 
     def openRepository(self, event):
-        # TODO: implement me
+        repo = github_functions.get_repo(self.comboboxRepositories.GetValue())
+        webbrowser.open_new_tab(repo.html_url)  # Add the URL of the GitHub repository
         event.Skip()
 
     def submitIssue(self, event):
