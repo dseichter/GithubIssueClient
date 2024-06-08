@@ -80,7 +80,7 @@ class MainFrame(wx.Frame):
 
         fgSizer4.Add(self.statictextLabels, 0, wx.ALL, 5)
         listboxLabelsChoices = []
-        self.listboxLabels = wx.ListBox(self.m_panel1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, listboxLabelsChoices, 0)
+        self.listboxLabels = wx.ListBox(self.m_panel1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, listboxLabelsChoices, wx.LB_MULTIPLE | wx.LB_SORT)
         fgSizer4.Add(self.listboxLabels, 1, wx.ALL | wx.EXPAND, 5)
 
         fgSizer4.Add((0, 0), 1, wx.EXPAND, 5)
@@ -135,7 +135,7 @@ class MainFrame(wx.Frame):
 
         fgSizer4.Add((0, 0), 1, wx.EXPAND, 5)
         self.m_panel2 = wx.Panel(self.m_panel1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
-        fgSizer2 = wx.FlexGridSizer(0, 2, 0, 0)
+        fgSizer2 = wx.FlexGridSizer(0, 3, 0, 0)
         fgSizer2.SetFlexibleDirection(wx.BOTH)
         fgSizer2.SetNonFlexibleGrowMode(wx.FLEX_GROWMODE_SPECIFIED)
 
@@ -143,6 +143,8 @@ class MainFrame(wx.Frame):
         fgSizer2.Add(self.buttonOpenRepository, 1, wx.ALL, 5)
         self.buttonSubmitIssue = wx.Button(self.m_panel2, wx.ID_ANY, u"Submit Issue", wx.DefaultPosition, wx.DefaultSize, 0)
         fgSizer2.Add(self.buttonSubmitIssue, 1, wx.ALL, 5)
+        self.buttonReset = wx.Button(self.m_panel2, wx.ID_ANY, u"Reset", wx.DefaultPosition, wx.DefaultSize, 0)
+        fgSizer2.Add(self.buttonReset, 0, wx.ALL, 5)
         self.m_panel2.SetSizer(fgSizer2)
         self.m_panel2.Layout()
         fgSizer2.Fit(self.m_panel2)
@@ -167,6 +169,7 @@ class MainFrame(wx.Frame):
         self.buttonReloadRepositories.Bind(wx.EVT_BUTTON, self.loadRepositories)
         self.buttonOpenRepository.Bind(wx.EVT_BUTTON, self.openRepository)
         self.buttonSubmitIssue.Bind(wx.EVT_BUTTON, self.submitIssue)
+        self.buttonReset.Bind(wx.EVT_BUTTON, self.resetUI)
 
     def __del__(self):
         pass
@@ -203,6 +206,9 @@ class MainFrame(wx.Frame):
         event.Skip()
 
     def submitIssue(self, event):
+        event.Skip()
+
+    def resetUI(self, event):
         event.Skip()
 
 # #########################################################################

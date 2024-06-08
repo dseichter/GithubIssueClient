@@ -78,14 +78,16 @@ class GitHubIssueClientFrame(gui.MainFrame):
         repo = self.comboboxRepositories.GetValue()
         # load the labels
         labels = github_functions.get_labels(repo)
+        self.listboxLabels.Clear()
         for v in labels:
-            print(v.name)
             self.listboxLabels.Append(v.name)
         # load the milestones
+        self.comboboxMilestones.Clear()
         milestones = github_functions.get_milestones(repo)
         for milestone in milestones:
             self.comboboxMilestones.Append(milestone.title)
         # load assignees
+        self.comboboxAssignees.Clear()
         assignees = github_functions.get_assignees(repo)
         for assignee in assignees:
             self.comboboxAssignees.Append(assignee.name)
@@ -93,11 +95,40 @@ class GitHubIssueClientFrame(gui.MainFrame):
     def openRepository(self, event):
         repo = github_functions.get_repo(self.comboboxRepositories.GetValue())
         webbrowser.open_new_tab(repo.html_url)  # Add the URL of the GitHub repository
-        event.Skip()
 
     def submitIssue(self, event):
-        # TODO: implement me
-        event.Skip()
+        reponame = self.comboboxRepositories.GetValue()
+        title = self.textIssueTitle.GetValue()
+        content = self.textIssueContent.GetValue()
+        assignee = self.comboboxAssignees.GetValue()
+        assignee = assignee if assignee != '' else "NotSet"
+        milestone = self.comboboxMilestones.GetValue()
+        milestone = milestone if milestone != '' else None
+
+        labels = []
+        for i in range(self.listboxLabels.GetCount()):
+            if self.listboxLabels.IsSelected(i):
+                labels.append(self.listboxLabels.GetString(i))
+
+        # ask for confirmation
+        result = wx.MessageBox('Do you really want to create the issue?', 'Confirmation', wx.YES_NO | wx.ICON_QUESTION)
+        if result == wx.NO:
+            return
+
+        # create the issue
+        issue = github_functions.create_issue(repo=reponame, title=title, body=content, labels=labels, assignee=assignee, milestone=milestone)
+
+        # check if issue is created
+        if issue:
+            wx.MessageBox('Issue ' + issue.id + ' created successfully.', 'Success', wx.OK | wx.ICON_INFORMATION)
+        else:
+            wx.MessageBox('Error creating issue.', 'Error', wx.OK | wx.ICON_ERROR)
+        self.resetUI(event)
+
+    def resetUI(self, event):
+        self.loadRepositoryData(event)
+        self.textIssueTitle.SetValue('')
+        self.textIssueContent.SetValue('')
 
 
 # mandatory in wx, create an app, False stands for not deteriction stdin/stdout

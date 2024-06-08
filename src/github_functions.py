@@ -21,6 +21,7 @@ def get_repos():
     # get all repos
     return user.get_repos()
 
+
 # load one single repo
 def get_repo(repo):
     # check if we should use github or ghe
@@ -50,5 +51,15 @@ def get_assignees(repo):
     return repo.get_assignees()
 
 
-def create_issue(repo, title, body, assignee, milestone, labels):
-    print(repo.create_issue(title, body, assignee, milestone, labels))
+def create_issue(repo='', title='', body='', labels=[], assignee='NotSet', milestone=None):
+    print(repo)
+    print(title)
+    print(body)
+    print(assignee)
+    print(milestone)
+    print(labels)
+
+    # create the issue
+    g = github_connection()
+    repo = g.get_repo(repo)
+    return repo.create_issue(title=title, body=body, assignee=assignee, milestone=milestone, labels=labels)
