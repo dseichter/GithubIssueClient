@@ -1,6 +1,6 @@
 # GithubIssueClient
 
-Create new tasks in your GitHub repositories. See current Freeware version of GithubIssueClient at [dseichter.de](https://www.dseichter.de/github-issue-client/).
+Create really simple a new task in your GitHub repositories with the GitHub Issue Client.
 
 ## Badges
 
