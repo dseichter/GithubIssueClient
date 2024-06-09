@@ -54,7 +54,7 @@ def get_assignees(repo):
 def create_issue(repo='', title='', body='', labels=[], assignee=None, milestone=None):
     g = github_connection()
     # add to parameters, if assignee is set
-    arguments={}
+    arguments = {}
     if assignee:
         # find assignee by name
         assignees = get_assignees(repo)

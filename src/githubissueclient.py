@@ -41,6 +41,22 @@ class GitHubIssueClientFrame(gui.MainFrame):
         self.Layout()
         self.Fit()
 
+        # check, if the personal access token is set
+        if settings.read_config()['personal_access_token'] == '':
+            wx.MessageBox('Please add/adjust your configuration.', 'No update', wx.OK | wx.ICON_INFORMATION)
+            # open the configuration dialog
+            dlg = configuration_ui.DialogConfiguration(self)
+            dlg.ShowModal()
+            dlg.Destroy()
+
+        # load the repositories
+        self.loadRepositories(event)
+        
+        if settings.read_config()['update_check']:
+            if helper.check_for_new_release():
+                wx.MessageBox('A new release is available.\nWould you like to open the download page?', 'Update available', wx.YES_NO | wx.ICON_INFORMATION)
+                webbrowser.open_new_tab(helper.RELEASES)
+
     def miFileClose(self, event):
         self.Close()
 
