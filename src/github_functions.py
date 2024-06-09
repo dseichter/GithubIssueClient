@@ -52,15 +52,28 @@ def get_assignees(repo):
 
 
 def create_issue(repo='', title='', body='', labels=[], assignee=None, milestone=None):
+    g = github_connection()
     # add to parameters, if assignee is set
     arguments={}
     if assignee:
-        arguments['assignees'] = [assignee]
+        # find assignee by name
+        assignees = get_assignees(repo)
+        for a in assignees:
+            if a.login == assignee:
+                assignee = a
+                break
+        arguments['assignees'] = [assignee.login]
     if milestone:
-        arguments['milestone'] = milestone
+        # find milestone Id by name
+        milestones = get_milestones(repo)
+        for m in milestones:
+            if m.title == milestone:
+                milestone = m
+                break
+        arguments['milestone'] = milestone.id
     if labels:
         arguments['labels'] = labels
+
     # create the issue
-    g = github_connection()
     repo = g.get_repo(repo)
     return repo.create_issue(title=title, body=body, **arguments)

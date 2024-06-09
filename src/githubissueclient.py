@@ -89,7 +89,7 @@ class GitHubIssueClientFrame(gui.MainFrame):
         self.comboboxAssignees.Clear()
         assignees = github_functions.get_assignees(repo)
         for assignee in assignees:
-            self.comboboxAssignees.Append(assignee.login)
+            self.comboboxAssignees.Append(assignee.name)
 
     def openRepository(self, event):
         repo = github_functions.get_repo(self.comboboxRepositories.GetValue())
