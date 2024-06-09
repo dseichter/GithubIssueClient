@@ -109,6 +109,11 @@ class GitHubIssueClientFrame(gui.MainFrame):
             if self.listboxLabels.IsSelected(i):
                 labels.append(self.listboxLabels.GetString(i))
 
+        # check, if mandatory fields are filled
+        if title == '' or content == '':
+            wx.MessageBox('Title and content are mandatory.', 'Error', wx.OK | wx.ICON_ERROR)
+            return
+
         # ask for confirmation
         result = wx.MessageBox('Do you really want to create the issue?', 'Confirmation', wx.YES_NO | wx.ICON_QUESTION)
         if result == wx.NO:
