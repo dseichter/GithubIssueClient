@@ -41,6 +41,22 @@ class GitHubIssueClientFrame(gui.MainFrame):
         self.Layout()
         self.Fit()
 
+        # check, if the personal access token is set
+        if settings.read_config()['personal_access_token'] == '':
+            wx.MessageBox('Please add/adjust your configuration.', 'No update', wx.OK | wx.ICON_INFORMATION)
+            # open the configuration dialog
+            dlg = configuration_ui.DialogConfiguration(self)
+            dlg.ShowModal()
+            dlg.Destroy()
+
+        # load the repositories
+        self.loadRepositories(event)
+
+        if settings.read_config()['update_check']:
+            if helper.check_for_new_release():
+                wx.MessageBox('A new release is available.\nWould you like to open the download page?', 'Update available', wx.YES_NO | wx.ICON_INFORMATION)
+                webbrowser.open_new_tab(helper.RELEASES)
+
     def miFileClose(self, event):
         self.Close()
 
@@ -72,7 +88,6 @@ class GitHubIssueClientFrame(gui.MainFrame):
         repos = github_functions.get_repos()
         for repo in repos:
             self.comboboxRepositories.Append(repo.full_name)
-            print(repo.full_name)
 
     def loadRepositoryData(self, event):
         repo = self.comboboxRepositories.GetValue()
@@ -101,7 +116,7 @@ class GitHubIssueClientFrame(gui.MainFrame):
         title = self.textIssueTitle.GetValue()
         content = self.textIssueContent.GetValue()
         assignee = self.comboboxAssignees.GetValue()
-        assignee = assignee if assignee != '' else "NotSet"
+        assignee = assignee if assignee != '' else None
         milestone = self.comboboxMilestones.GetValue()
         milestone = milestone if milestone != '' else None
 
@@ -109,6 +124,11 @@ class GitHubIssueClientFrame(gui.MainFrame):
         for i in range(self.listboxLabels.GetCount()):
             if self.listboxLabels.IsSelected(i):
                 labels.append(self.listboxLabels.GetString(i))
+
+        # check, if mandatory fields are filled
+        if title == '' or content == '':
+            wx.MessageBox('Title and content are mandatory.', 'Error', wx.OK | wx.ICON_ERROR)
+            return
 
         # ask for confirmation
         result = wx.MessageBox('Do you really want to create the issue?', 'Confirmation', wx.YES_NO | wx.ICON_QUESTION)
@@ -120,7 +140,7 @@ class GitHubIssueClientFrame(gui.MainFrame):
 
         # check if issue is created
         if issue:
-            wx.MessageBox('Issue ' + issue.id + ' created successfully.', 'Success', wx.OK | wx.ICON_INFORMATION)
+            wx.MessageBox('Issue ' + str(issue.number) + ' created successfully.', 'Success', wx.OK | wx.ICON_INFORMATION)
         else:
             wx.MessageBox('Error creating issue.', 'Error', wx.OK | wx.ICON_ERROR)
         self.resetUI(event)

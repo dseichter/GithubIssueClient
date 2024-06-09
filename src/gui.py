@@ -219,14 +219,15 @@ class MainFrame(wx.Frame):
 class dialogConfiguration(wx.Dialog):
 
     def __init__(self, parent):
-        wx.Dialog.__init__(self, parent, id=wx.ID_ANY, title=u"Configuration", pos=wx.DefaultPosition, size=wx.Size(381, 235), style=wx.DEFAULT_DIALOG_STYLE)
+        wx.Dialog.__init__(self, parent, id=wx.ID_ANY, title=u"Configuration", pos=wx.DefaultPosition, size=wx.Size(400, 248), style=wx.DEFAULT_DIALOG_STYLE)
 
-        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
+        self.SetSizeHints(wx.Size(400, -1), wx.DefaultSize)
 
         fgSizer3 = wx.FlexGridSizer(0, 2, 0, 0)
         fgSizer3.SetFlexibleDirection(wx.BOTH)
         fgSizer3.SetNonFlexibleGrowMode(wx.FLEX_GROWMODE_SPECIFIED)
 
+        fgSizer3.SetMinSize(wx.Size(300, -1))
         self.statictextUsername = wx.StaticText(self, wx.ID_ANY, u"Username", wx.DefaultPosition, wx.DefaultSize, 0)
         self.statictextUsername.Wrap(-1)
 
@@ -238,7 +239,9 @@ class dialogConfiguration(wx.Dialog):
 
         fgSizer3.Add(self.statictextPAT, 0, wx.ALL, 5)
         self.textPAT = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0)
-        fgSizer3.Add(self.textPAT, 0, wx.ALL, 5)
+        self.textPAT.SetMinSize(wx.Size(400, -1))
+
+        fgSizer3.Add(self.textPAT, 0, wx.ALL | wx.EXPAND, 5)
         self.radiobuttonGitHub = wx.RadioButton(self, wx.ID_ANY, u"Github.com", wx.DefaultPosition, wx.DefaultSize, wx.RB_GROUP)
         fgSizer3.Add(self.radiobuttonGitHub, 0, wx.ALL, 5)
 
@@ -252,17 +255,45 @@ class dialogConfiguration(wx.Dialog):
 
         fgSizer3.Add(self.statictextGHEUrl, 0, wx.ALL, 5)
         self.textGHEURL = wx.TextCtrl(self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0)
-        fgSizer3.Add(self.textGHEURL, 0, wx.ALL, 5)
+        self.textGHEURL.SetMinSize(wx.Size(400, -1))
+
+        fgSizer3.Add(self.textGHEURL, 0, wx.ALL | wx.EXPAND, 5)
 
         fgSizer3.Add((0, 0), 1, wx.EXPAND, 5)
         self.checkboxUpdate = wx.CheckBox(self, wx.ID_ANY, u"Check for updates on startup?", wx.DefaultPosition, wx.DefaultSize, 0)
         fgSizer3.Add(self.checkboxUpdate, 0, wx.ALL, 5)
+
+        fgSizer3.Add((0, 0), 1, wx.EXPAND, 5)
+        fgSizer6 = wx.FlexGridSizer(0, 2, 0, 0)
+        fgSizer6.SetFlexibleDirection(wx.BOTH)
+        fgSizer6.SetNonFlexibleGrowMode(wx.FLEX_GROWMODE_SPECIFIED)
+
+        self.buttonSave = wx.Button(self, wx.ID_ANY, u"Save", wx.DefaultPosition, wx.DefaultSize, 0)
+        fgSizer6.Add(self.buttonSave, 0, wx.ALL, 5)
+        self.buttonCancel = wx.Button(self, wx.ID_ANY, u"Cancel", wx.DefaultPosition, wx.DefaultSize, 0)
+        fgSizer6.Add(self.buttonCancel, 0, wx.ALL, 5)
+        fgSizer3.Add(fgSizer6, 1, wx.EXPAND, 5)
         self.SetSizer(fgSizer3)
         self.Layout()
         self.Centre(wx.BOTH)
 
+        # Connect Events
+        self.Bind(wx.EVT_SHOW, self.showConfig)
+        self.buttonSave.Bind(wx.EVT_BUTTON, self.saveConfig)
+        self.buttonCancel.Bind(wx.EVT_BUTTON, self.closeConfig)
+
     def __del__(self):
         pass
+    # Virtual event handlers, override them in your derived class
+
+    def showConfig(self, event):
+        event.Skip()
+
+    def saveConfig(self, event):
+        event.Skip()
+
+    def closeConfig(self, event):
+        event.Skip()
 
 # #########################################################################
 # # Class dialogAbout

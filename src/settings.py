@@ -25,6 +25,8 @@ def create_config():
         data['use_ghe'] = False
     if 'ghe_url' not in data:
         data['ghe_url'] = ''
+    if 'update_check' not in data:
+        data['update_check'] = True
 
     with open(CONFIGFILE, 'w') as f:
         json.dump(data, f, indent=4, sort_keys=True)

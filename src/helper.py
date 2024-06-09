@@ -2,7 +2,7 @@ import urllib3
 import json
 import logging
 
-VERSION = "v2024-05-23"
+VERSION = "v2024-06-09"
 UPDATEURL = 'https://api.github.com/repos/dseichter/GithubIssueClient/releases/latest'
 RELEASES = 'https://github.com/dseichter/GithubIssueClient/releases'
 NAME = 'GithubIssueClient'
