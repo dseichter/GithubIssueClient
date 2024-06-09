@@ -27,10 +27,9 @@ class DialogConfiguration(gui.dialogConfiguration):
         self.radiobuttonGHE.SetValue(not config['use_github'])
         self.textGHEURL.SetValue(config['ghe_url'])
         self.checkboxUpdate.SetValue(config['update_check'])
-        
+
         self.Layout()
         self.Fit()
-        
 
     def saveConfig(self, event):
         # save the config
