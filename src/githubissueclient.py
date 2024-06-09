@@ -72,7 +72,6 @@ class GitHubIssueClientFrame(gui.MainFrame):
         repos = github_functions.get_repos()
         for repo in repos:
             self.comboboxRepositories.Append(repo.full_name)
-            print(repo.full_name)
 
     def loadRepositoryData(self, event):
         repo = self.comboboxRepositories.GetValue()
@@ -90,7 +89,7 @@ class GitHubIssueClientFrame(gui.MainFrame):
         self.comboboxAssignees.Clear()
         assignees = github_functions.get_assignees(repo)
         for assignee in assignees:
-            self.comboboxAssignees.Append(assignee.name)
+            self.comboboxAssignees.Append(assignee.login)
 
     def openRepository(self, event):
         repo = github_functions.get_repo(self.comboboxRepositories.GetValue())
@@ -101,7 +100,7 @@ class GitHubIssueClientFrame(gui.MainFrame):
         title = self.textIssueTitle.GetValue()
         content = self.textIssueContent.GetValue()
         assignee = self.comboboxAssignees.GetValue()
-        assignee = assignee if assignee != '' else "NotSet"
+        assignee = assignee if assignee != '' else None
         milestone = self.comboboxMilestones.GetValue()
         milestone = milestone if milestone != '' else None
 
@@ -120,7 +119,7 @@ class GitHubIssueClientFrame(gui.MainFrame):
 
         # check if issue is created
         if issue:
-            wx.MessageBox('Issue ' + issue.id + ' created successfully.', 'Success', wx.OK | wx.ICON_INFORMATION)
+            wx.MessageBox('Issue ' + str(issue.number) + ' created successfully.', 'Success', wx.OK | wx.ICON_INFORMATION)
         else:
             wx.MessageBox('Error creating issue.', 'Error', wx.OK | wx.ICON_ERROR)
         self.resetUI(event)

@@ -51,15 +51,16 @@ def get_assignees(repo):
     return repo.get_assignees()
 
 
-def create_issue(repo='', title='', body='', labels=[], assignee='NotSet', milestone=None):
-    print(repo)
-    print(title)
-    print(body)
-    print(assignee)
-    print(milestone)
-    print(labels)
-
+def create_issue(repo='', title='', body='', labels=[], assignee=None, milestone=None):
+    # add to parameters, if assignee is set
+    arguments={}
+    if assignee:
+        arguments['assignees'] = [assignee]
+    if milestone:
+        arguments['milestone'] = milestone
+    if labels:
+        arguments['labels'] = labels
     # create the issue
     g = github_connection()
     repo = g.get_repo(repo)
-    return repo.create_issue(title=title, body=body, assignee=assignee, milestone=milestone, labels=labels)
+    return repo.create_issue(title=title, body=body, **arguments)
