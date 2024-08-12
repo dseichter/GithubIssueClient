@@ -1,5 +1,5 @@
 wxPython==4.2.1; sys_platform != "linux"
 https://github.com/dseichter/wxpython-whl/releases/download/4.2.1/wxPython-4.2.1-cp312-cp312-linux_x86_64.whl; sys_platform == "linux"
 urllib3==2.2.2
-pyinstaller==6.9.0
+pyinstaller==6.10.0
 PyGithub==2.3.0
