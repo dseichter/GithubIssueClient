@@ -56,7 +56,7 @@ class GitHubIssueClientFrame(gui.MainFrame):
 
         # check, if the personal access token is set
         if settings.read_config()['personal_access_token'] == '':
-            wx.MessageBox('Please add/adjust your configuration.', 'No update', wx.OK | wx.ICON_INFORMATION)
+            wx.MessageBox('Please add/adjust your configuration.', 'Missing configuration', wx.OK | wx.ICON_INFORMATION)
             # open the configuration dialog
             dlg = configuration_ui.DialogConfiguration(self)
             dlg.ShowModal()
