@@ -66,6 +66,28 @@ def get_assignees(repo):
     return repo.get_assignees()
 
 
+def get_issue_templates(repo):
+    g = github_connection()
+    # load all labels from the repository
+    repo = g.get_repo(repo)
+    # list all files in the .github/ISSUE_TEMPLATE directory
+    contents = repo.get_contents('.github/ISSUE_TEMPLATE')
+    # remove prefix .github/ISSUE_TEMPLATE/ from the file names
+    for i in range(len(contents)):
+        contents[i] = contents[i].path.replace('.github/ISSUE_TEMPLATE/', '')
+    return contents
+
+
+def get_issue_template(repo, template):
+    g = github_connection()
+    # load all labels from the repository
+    repo = g.get_repo(repo)
+    file = repo.get_contents('.github/ISSUE_TEMPLATE/' + template)
+    # decode the content
+    print(file.decoded_content.decode('utf-8'))
+    return file.decoded_content.decode('utf-8')
+
+
 def create_issue(repo='', title='', body='', labels=[], assignee=None, milestone=None):
     g = github_connection()
     # add to parameters, if assignee is set
