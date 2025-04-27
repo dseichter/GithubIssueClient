@@ -43,8 +43,6 @@ class GitHubIssueClientFrame(gui.MainFrame):
         self.menuitemHelpUpdate.SetBitmap(icons.restart.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
         self.menuitemHelpAbout.SetBitmap(icons.info.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
 
-    def gicClose(self, event):
-        self.Close()
 
     def gicShow(self, event):
         # check if config.json exists, if not create it, if available, update it
@@ -58,7 +56,7 @@ class GitHubIssueClientFrame(gui.MainFrame):
 
         # check, if the personal access token is set
         if settings.read_config()['personal_access_token'] == '':
-            wx.MessageBox('Please add/adjust your configuration.', 'No update', wx.OK | wx.ICON_INFORMATION)
+            wx.MessageBox('Please add/adjust your configuration.', 'Missing configuration', wx.OK | wx.ICON_INFORMATION)
             # open the configuration dialog
             dlg = configuration_ui.DialogConfiguration(self)
             dlg.ShowModal()
