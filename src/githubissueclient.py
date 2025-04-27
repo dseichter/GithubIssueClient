@@ -43,8 +43,6 @@ class GitHubIssueClientFrame(gui.MainFrame):
         self.menuitemHelpUpdate.SetBitmap(icons.restart.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
         self.menuitemHelpAbout.SetBitmap(icons.info.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
 
-    def gicClose(self, event):
-        self.Close()
 
     def gicShow(self, event):
         # check if config.json exists, if not create it, if available, update it
