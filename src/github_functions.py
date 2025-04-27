@@ -84,8 +84,25 @@ def get_issue_template(repo, template):
     repo = g.get_repo(repo)
     file = repo.get_contents('.github/ISSUE_TEMPLATE/' + template)
     # decode the content
-    print(file.decoded_content.decode('utf-8'))
-    return file.decoded_content.decode('utf-8')
+    filecontent = file.decoded_content.decode('utf-8')
+
+    # get content of first line
+    # split the content by new line
+    lines = filecontent.split('\n')
+    # get the first line (can be --- or +++)
+    header = lines[0]
+    # find the next line, with same content as header
+    for i in range(1, len(lines)):
+        if lines[i] == header:
+            # remove all lines before this line
+            lines = lines[i+1:]
+            break
+
+    if lines[0] == '':
+        # remove the first line, if it is empty
+        lines = lines[1:]
+
+    return '\n'.join(lines)
 
 
 def create_issue(repo='', title='', body='', labels=[], assignee=None, milestone=None):
