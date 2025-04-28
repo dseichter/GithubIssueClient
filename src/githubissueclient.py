@@ -43,6 +43,9 @@ class GitHubIssueClientFrame(gui.MainFrame):
         self.menuitemHelpUpdate.SetBitmap(icons.restart.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
         self.menuitemHelpAbout.SetBitmap(icons.info.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
 
+        # Set a valid code font for textIssueContent
+        font = wx.Font(10, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.textIssueContent.SetFont(font)
 
     def gicShow(self, event):
         # check if config.json exists, if not create it, if available, update it
@@ -67,8 +70,9 @@ class GitHubIssueClientFrame(gui.MainFrame):
 
         if settings.read_config()['update_check']:
             if helper.check_for_new_release():
-                wx.MessageBox('A new release is available.\nWould you like to open the download page?', 'Update available', wx.YES_NO | wx.ICON_INFORMATION)
-                webbrowser.open_new_tab(helper.RELEASES)
+                result = wx.MessageBox('A new release is available.\nWould you like to open the download page?', 'Update available', wx.YES_NO | wx.ICON_INFORMATION)
+                if result == wx.YES:
+                    webbrowser.open_new_tab(helper.RELEASES)
 
     def miFileClose(self, event):
         self.Close()
@@ -119,6 +123,18 @@ class GitHubIssueClientFrame(gui.MainFrame):
         assignees = github_functions.get_assignees(repo)
         for assignee in assignees:
             self.comboboxAssignees.Append(assignee.name)
+        # load issue templates
+        self.comboboxIssueTemplates.Clear()
+        templates = github_functions.get_issue_templates(repo)
+        for template in templates:
+            self.comboboxIssueTemplates.Append(template)
+
+    def loadIssueTemplate(self, event):
+        template = self.comboboxIssueTemplates.GetValue()
+        repo = self.comboboxRepositories.GetValue()
+        # load the issue template
+        content = github_functions.get_issue_template(repo, template)
+        self.textIssueContent.SetValue(content)
 
     def openRepository(self, event):
         repo = github_functions.get_repo(self.comboboxRepositories.GetValue())
