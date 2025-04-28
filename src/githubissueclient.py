@@ -70,8 +70,9 @@ class GitHubIssueClientFrame(gui.MainFrame):
 
         if settings.read_config()['update_check']:
             if helper.check_for_new_release():
-                wx.MessageBox('A new release is available.\nWould you like to open the download page?', 'Update available', wx.YES_NO | wx.ICON_INFORMATION)
-                webbrowser.open_new_tab(helper.RELEASES)
+                result = wx.MessageBox('A new release is available.\nWould you like to open the download page?', 'Update available', wx.YES_NO | wx.ICON_INFORMATION)
+                if result == wx.YES:
+                    webbrowser.open_new_tab(helper.RELEASES)
 
     def miFileClose(self, event):
         self.Close()
