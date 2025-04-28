@@ -43,6 +43,10 @@ class GitHubIssueClientFrame(gui.MainFrame):
         self.menuitemHelpUpdate.SetBitmap(icons.restart.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
         self.menuitemHelpAbout.SetBitmap(icons.info.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
 
+        # Set a valid code font for textIssueContent
+        font = wx.Font(10, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
+        self.textIssueContent.SetFont(font)
+
     def gicShow(self, event):
         # check if config.json exists, if not create it, if available, update it
         settings.create_config()
