@@ -5,6 +5,8 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "pip"
-    directory: "/src/"
+    directories:
+      - "/src"
+      - "/icons"
     schedule:
       interval: "weekly"

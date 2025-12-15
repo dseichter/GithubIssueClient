@@ -38,4 +38,8 @@ Install the required dependencies
 
 ```pip install -r src/requirements.txt```
 
-If you want to do some UI changes, download and install the latest wxFormBuilder from the [wxFormBuilder Homepage](https://github.com/wxFormBuilder/wxFormBuilder).
+The application has been migrated from wxPython to PySide6 for better cross-platform compatibility and modern Qt features.
+
+To run the PySide6 version:
+
+```python src/githubissueclient_pyside.py```

@@ -13,31 +13,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-# import the newly created GUI file
-import gui
-
-# import GitHubIssueClient specific libraries
-import helper
 import webbrowser
+from gui import AboutDialog
+import helper
 import icons
 
 
-class DialogAbout(gui.dialogAbout):
-    # constructor
+class DialogAbout(AboutDialog):
     def __init__(self, parent):
-        # initialize parent class
-        gui.dialogAbout.__init__(self, parent)
+        super().__init__(parent)
+        
+        self.label_name.setText(f"{helper.NAME} {helper.VERSION}")
+        self.label_license.setText(f"Licenced under {helper.LICENCE}")
+        
+        self.setWindowIcon(icons.get_icon('bug_report_48dp_8B1A10_FILL0_wght400_GRAD0_opsz48'))
+        pixmap = icons.get_icon('bug_report_48dp_8B1A10_FILL0_wght400_GRAD0_opsz48').pixmap(48, 48)
+        self.logo_label.setPixmap(pixmap)
+        self.adjustSize()
 
-        self.staticTextName.SetLabelText(helper.NAME + ' ' + helper.VERSION)
-        self.staticTextLicence.SetLabelText(self.staticTextLicence.GetLabelText() + ' ' + helper.LICENCE)
-
-        # specify all the icons
-        gui.dialogAbout.SetIcon(self, icons.info.GetIcon())
-        self.bitmapLogo.SetBitmap(icons.github.GetBitmap())
-        self.Fit()
-
-    def openGithub(self, event):
-        webbrowser.open_new_tab('https://github.com/dseichter/GithubIssueClient')  # Add the URL of the GitHub repository
-
-    def openIcons8(self, event):
-        webbrowser.open_new_tab('https://icons8.com/')
+    def open_github(self, event):
+        webbrowser.open_new_tab('https://github.com/dseichter/GithubIssueClient')

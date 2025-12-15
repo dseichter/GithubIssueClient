@@ -13,49 +13,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-# importing wx files
-import wx
-# import the newly created GUI file
-import gui
-
-# import workdir specific libraries
+from gui import ConfigurationDialog
 import settings
 import icons
 
 
-class DialogConfiguration(gui.dialogConfiguration):
-    # constructor
+class DialogConfiguration(ConfigurationDialog):
     def __init__(self, parent):
-        # initialize parent class
-        gui.dialogConfiguration.__init__(self, parent)
+        super().__init__(parent)
+        self.setWindowIcon(icons.get_icon('settings_24dp_8B1A10_FILL0_wght400_GRAD0_opsz24'))
 
-        # specify all the icons
-        gui.dialogAbout.SetIcon(self, icons.settings.GetIcon())
-
-    def showConfig(self, event):
-        # get the config
+    def showEvent(self, event):
         config = settings.read_config()
-        # set the values
-        self.textUsername.SetValue(config['username'])
-        self.textPAT.SetValue(config['personal_access_token'])
-        self.radiobuttonGitHub.SetValue(config['use_github'])
-        self.radiobuttonGHE.SetValue(not config['use_github'])
-        self.textGHEURL.SetValue(config['ghe_url'])
-        self.checkboxUpdate.SetValue(config['update_check'])
+        self.text_username.setText(config['username'])
+        self.text_pat.setText(config['personal_access_token'])
+        self.radio_github.setChecked(config['use_github'])
+        self.radio_ghe.setChecked(not config['use_github'])
+        self.text_ghe_url.setText(config['ghe_url'])
+        self.checkbox_update.setChecked(config['update_check'])
 
-        self.Layout()
-        self.Fit()
-
-    def saveConfig(self, event):
-        # save the config
-        settings.save_config('username', self.textUsername.GetValue())
-        settings.save_config('personal_access_token', self.textPAT.GetValue())
-        settings.save_config('use_github', self.radiobuttonGitHub.GetValue())
-        settings.save_config('use_ghe', self.radiobuttonGHE.GetValue())
-        settings.save_config('ghe_url', self.textGHEURL.GetValue())
-        settings.save_config('update_check', self.checkboxUpdate.GetValue())
-        # close the dialog
-        self.Close()
-
-    def closeConfig(self, event):
-        self.Close()
+    def accept(self):
+        settings.save_config('username', self.text_username.text())
+        settings.save_config('personal_access_token', self.text_pat.text())
+        settings.save_config('use_github', self.radio_github.isChecked())
+        settings.save_config('use_ghe', self.radio_ghe.isChecked())
+        settings.save_config('ghe_url', self.text_ghe_url.text())
+        settings.save_config('update_check', self.checkbox_update.isChecked())
+        super().accept()
