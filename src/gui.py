@@ -34,6 +34,7 @@ class MainWindow(QMainWindow):
     helpSupport = Signal()
     helpUpdate = Signal()
     helpAbout = Signal()
+    themeToggle = Signal()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -151,6 +152,10 @@ class MainWindow(QMainWindow):
         extras_menu = menubar.addMenu("Extras")
         config_action = extras_menu.addAction(icons.get_icon('settings_24dp_8b1a10_fill0_wght400_grad0_opsz24'), "Configuration")
         config_action.triggered.connect(self.extrasConfiguration)
+        
+        extras_menu.addSeparator()
+        theme_action = extras_menu.addAction("Toggle Dark/Light Theme")
+        theme_action.triggered.connect(self.themeToggle)
         
         # Help menu
         help_menu = menubar.addMenu("Help")

@@ -52,6 +52,7 @@ class GitHubIssueClientFrame(gui.MainWindow):
         self.helpSupport.connect(self.show_support)
         self.helpUpdate.connect(self.check_update)
         self.helpAbout.connect(self.show_about)
+        self.themeToggle.connect(self.toggle_theme)
 
     def showEvent(self, event):
         settings.create_config()
@@ -201,6 +202,52 @@ class GitHubIssueClientFrame(gui.MainWindow):
         self.load_repository_data()
         self.text_title.clear()
         self.text_content.clear()
+    
+    def toggle_theme(self):
+        app = QApplication.instance()
+        current_style = app.styleSheet()
+        
+        if "background-color: #2b2b2b" in current_style:
+            # Switch to light theme
+            app.setStyleSheet("")
+        else:
+            # Switch to dark theme
+            dark_style = """
+            QMainWindow, QDialog {
+                background-color: #2b2b2b;
+                color: #ffffff;
+            }
+            QLineEdit, QTextEdit, QComboBox, QListWidget {
+                background-color: #3c3c3c;
+                color: #ffffff;
+                border: 1px solid #555555;
+            }
+            QPushButton {
+                background-color: #404040;
+                color: #ffffff;
+                border: 1px solid #555555;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #505050;
+            }
+            QMenuBar {
+                background-color: #2b2b2b;
+                color: #ffffff;
+            }
+            QMenuBar::item:selected {
+                background-color: #404040;
+            }
+            QMenu {
+                background-color: #2b2b2b;
+                color: #ffffff;
+                border: 1px solid #555555;
+            }
+            QMenu::item:selected {
+                background-color: #404040;
+            }
+            """
+            app.setStyleSheet(dark_style)
 
 
 def main():
