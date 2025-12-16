@@ -38,4 +38,17 @@ Install the required dependencies
 
 ```pip install -r src/requirements.txt```
 
-If you want to do some UI changes, download and install the latest wxFormBuilder from the [wxFormBuilder Homepage](https://github.com/wxFormBuilder/wxFormBuilder).
+The application has been migrated from wxPython to PySide6 for better cross-platform compatibility and modern Qt features.
+
+To run the PySide6 version:
+
+```python src/githubissueclient.py```
+
+## 📄 License
+
+GPL 3.0 — see [LICENSE](LICENSE) file at the root of the repository for details.
+
+## Icons
+ 
+GitHubIssueClient uses [Google Material Symbols](https://fonts.google.com/icons) within its code for UI icons.  
+Material Symbols are licensed under the [Apache License 2.0](https://github.com/google/material-design-icons/blob/master/LICENSE) and are free for use in open source projects.

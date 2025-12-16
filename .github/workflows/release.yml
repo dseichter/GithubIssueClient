@@ -28,7 +28,7 @@ jobs:
             run: pip install -r src/requirements.txt
 
           - name: Build Windows binary
-            run: pyinstaller --onefile -w src/githubissueclient.py -n githubissueclient-windows-${{ github.ref_name }}.exe --icon=icons/GitHub.ico
+            run: pyinstaller --onefile -w src/githubissueclient.py -n githubissueclient-windows-${{ github.ref_name }}.exe --icon=icons/gic.ico
 
           - name: Upload artifact
             uses: actions/upload-artifact@v5
@@ -60,7 +60,7 @@ jobs:
             run: pip install -r src/requirements.txt
 
           - name: Build Linux binary
-            run: pyinstaller --onefile src/githubissueclient.py -n githubissueclient-linux-${{ github.ref_name }} --icon=icons/GitHub.ico
+            run: pyinstaller --onefile src/githubissueclient.py -n githubissueclient-linux-${{ github.ref_name }}
 
           - name: Upload artifact
             uses: actions/upload-artifact@v5
@@ -87,7 +87,7 @@ jobs:
             tag_name: ${{ github.ref_name }}
             name: Release ${{ github.ref_name }}
             draft: false
-            prerelease: false
+            prerelease: ${{ contains(github.ref_name, 'rc') || contains(github.ref_name, 'beta') }}
             generate_release_notes: true
             files: |
               githubissueclient-linux-${{ github.ref_name }}

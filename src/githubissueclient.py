@@ -13,14 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-# importing wx files
-import wx
-# import the newly created GUI file
-import gui
-# import common libraries
+import sys
 import webbrowser
+from PySide6.QtWidgets import QApplication, QMessageBox
+from PySide6.QtGui import QFont
 
-# import workdir specific libraries
+import gui
 import about_ui
 import configuration_ui
 import settings
@@ -28,167 +26,235 @@ import helper
 import icons
 import github_functions
 
+class GitHubIssueClientFrame(gui.MainWindow):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        
+        # Set window icon
+        self.setWindowIcon(icons.get_icon('bug_report_24dp_8B1A10_FILL0_wght400_GRAD0_opsz24'))
+        
+        # Set font for content text
+        font = QFont("Courier", 10)
+        self.text_content.setFont(font)
+        
+        # Connect signals
+        self.repositoryChanged.connect(self.load_repository_data)
+        self.reloadRepositories.connect(self.load_repositories)
+        self.templateChanged.connect(self.load_issue_template)
+        self.openRepository.connect(self.open_repository)
+        self.submitIssue.connect(self.submit_issue)
+        self.resetUI.connect(self.reset_ui)
+        
+        # Menu connections
+        self.fileClose.connect(self.close)
+        self.extrasConfiguration.connect(self.show_configuration)
+        self.helpSupport.connect(self.show_support)
+        self.helpUpdate.connect(self.check_update)
+        self.helpAbout.connect(self.show_about)
+        self.themeToggle.connect(self.toggle_theme)
 
-class GitHubIssueClientFrame(gui.MainFrame):
-    # constructor
-    def __init__(self, parent):
-        # initialize parent class
-        gui.MainFrame.__init__(self, parent)
-
-        # specify all the icons
-        gui.MainFrame.SetIcon(self, icons.github.GetIcon())
-        self.menuitemFileClose.SetBitmap(icons.cancel.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
-        self.menuitemExtrasConfiguration.SetBitmap(icons.settings.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
-        self.menuitemHelpSupport.SetBitmap(icons.get_help.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
-        self.menuitemHelpUpdate.SetBitmap(icons.restart.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
-        self.menuitemHelpAbout.SetBitmap(icons.info.GetBitmap().ConvertToImage().Rescale(16, 16).ConvertToBitmap())
-
-        # Set a valid code font for textIssueContent
-        font = wx.Font(10, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL)
-        self.textIssueContent.SetFont(font)
-
-    def gicShow(self, event):
-        # check if config.json exists, if not create it, if available, update it
+    def showEvent(self, event):
         settings.create_config()
-
-        # add the version to the label
-        self.SetTitle(helper.NAME + ' ' + helper.VERSION)
-
-        self.Layout()
-        self.Fit()
-
-        # check, if the personal access token is set
-        if settings.read_config()['personal_access_token'] == '':
-            wx.MessageBox('Please add/adjust your configuration.', 'Missing configuration', wx.OK | wx.ICON_INFORMATION)
-            # open the configuration dialog
-            dlg = configuration_ui.DialogConfiguration(self)
-            dlg.ShowModal()
-            dlg.Destroy()
-
-        # load the repositories
-        self.loadRepositories(event)
-
+        self.setWindowTitle(f"{helper.NAME} {helper.VERSION}")
+        
+        config = settings.read_config()
+        if not config['personal_access_token']:
+            QMessageBox.critical(self, 'Missing Credentials', 
+                               'Personal Access Token is required to use this application.\n\n'
+                               'Please configure your GitHub credentials.')
+            self.show_configuration()
+            return
+        
+        # Test PAT validity
+        try:
+            github_functions.check_pat(config['personal_access_token'], config['use_github'], config['ghe_url'])
+        except Exception:
+            QMessageBox.critical(self, 'Invalid Credentials', 
+                               'Your Personal Access Token appears to be invalid.\n\n'
+                               'Please check your configuration.')
+            self.show_configuration()
+            return
+        
+        self.load_repositories()
+        
         if settings.read_config()['update_check']:
             if helper.check_for_new_release():
-                result = wx.MessageBox('A new release is available.\nWould you like to open the download page?', 'Update available', wx.YES_NO | wx.ICON_INFORMATION)
-                if result == wx.YES:
+                reply = QMessageBox.question(self, 'Update available',
+                                           'A new release is available.\nWould you like to open the download page?')
+                if reply == QMessageBox.Yes:
                     webbrowser.open_new_tab(helper.RELEASES)
 
-    def miFileClose(self, event):
-        self.Close()
-
-    def miExtrasConfiguration(self, event):
-        # open the configuration dialog
+    def show_configuration(self):
         dlg = configuration_ui.DialogConfiguration(self)
-        dlg.ShowModal()
-        dlg.Destroy()
+        dlg.exec()
 
-    def miHelpSupport(self, event):
-        webbrowser.open_new_tab('https://github.com/dseichter/GithubIssueClient')  # Add the URL of the GitHub repository
+    def show_support(self):
+        webbrowser.open_new_tab('https://github.com/dseichter/GithubIssueClient')
 
-    def miHelpUpdate(self, event):
+    def check_update(self):
         if helper.check_for_new_release():
-            result = wx.MessageBox('A new release is available.\nWould you like to open the download page?', 'Update available', wx.YES_NO | wx.ICON_INFORMATION)
-            if result == wx.YES:
+            reply = QMessageBox.question(self, 'Update available',
+                                       'A new release is available.\nWould you like to open the download page?')
+            if reply == QMessageBox.Yes:
                 webbrowser.open_new_tab(helper.RELEASES)
         else:
-            wx.MessageBox('No new release available.', 'No update', wx.OK | wx.ICON_INFORMATION)
+            QMessageBox.information(self, 'No update', 'No new release available.')
 
-    def miHelpAbout(self, event):
-        # open the about dialog
+    def show_about(self):
         dlg = about_ui.DialogAbout(self)
-        dlg.ShowModal()
-        dlg.Destroy()
+        dlg.exec()
 
-    def loadRepositories(self, event):
-        self.comboboxRepositories.Clear()
-        repos = github_functions.get_repos()
-        for repo in repos:
-            self.comboboxRepositories.Append(repo.full_name)
+    def load_repositories(self):
+        self.combobox_repositories.clear()
+        try:
+            repos = github_functions.get_repos()
+            for repo in repos:
+                self.combobox_repositories.addItem(repo.full_name)
+        except Exception as e:
+            QMessageBox.critical(self, 'Error', f'Failed to load repositories: {str(e)}')
 
-    def loadRepositoryData(self, event):
-        repo = self.comboboxRepositories.GetValue()
-        # load the labels
-        labels = github_functions.get_labels(repo)
-        self.listboxLabels.Clear()
-        for v in labels:
-            self.listboxLabels.Append(v.name)
-        # load the milestones
-        self.comboboxMilestones.Clear()
-        milestones = github_functions.get_milestones(repo)
-        for milestone in milestones:
-            self.comboboxMilestones.Append(milestone.title)
-        # load assignees
-        self.comboboxAssignees.Clear()
-        assignees = github_functions.get_assignees(repo)
-        for assignee in assignees:
-            self.comboboxAssignees.Append(assignee.name)
-        # load issue templates
-        self.comboboxIssueTemplates.Clear()
-        templates = github_functions.get_issue_templates(repo)
-        for template in templates:
-            self.comboboxIssueTemplates.Append(template)
+    def load_repository_data(self):
+        repo = self.combobox_repositories.currentText()
+        if not repo:
+            return
+            
+        try:
+            # Load labels
+            labels = github_functions.get_labels(repo)
+            self.listbox_labels.clear()
+            for label in labels:
+                self.listbox_labels.addItem(label.name)
+                
+            # Load milestones
+            self.combobox_milestones.clear()
+            milestones = github_functions.get_milestones(repo)
+            for milestone in milestones:
+                self.combobox_milestones.addItem(milestone.title)
+                
+            # Load assignees
+            self.combobox_assignees.clear()
+            assignees = github_functions.get_assignees(repo)
+            for assignee in assignees:
+                self.combobox_assignees.addItem(assignee.name)
+                
+            # Load templates
+            self.combobox_templates.clear()
+            templates = github_functions.get_issue_templates(repo)
+            for template in templates:
+                self.combobox_templates.addItem(template)
+        except Exception as e:
+            QMessageBox.warning(self, 'Warning', f'Failed to load repository data: {str(e)}')
 
-    def loadIssueTemplate(self, event):
-        template = self.comboboxIssueTemplates.GetValue()
-        repo = self.comboboxRepositories.GetValue()
-        # load the issue template
-        content = github_functions.get_issue_template(repo, template)
-        self.textIssueContent.SetValue(content)
+    def load_issue_template(self):
+        template = self.combobox_templates.currentText()
+        repo = self.combobox_repositories.currentText()
+        if template and repo:
+            try:
+                content = github_functions.get_issue_template(repo, template)
+                self.text_content.setPlainText(content)
+            except Exception as e:
+                QMessageBox.warning(self, 'Warning', f'Failed to load template: {str(e)}')
 
-    def openRepository(self, event):
-        repo = github_functions.get_repo(self.comboboxRepositories.GetValue())
-        webbrowser.open_new_tab(repo.html_url)  # Add the URL of the GitHub repository
+    def open_repository(self):
+        try:
+            repo = github_functions.get_repo(self.combobox_repositories.currentText())
+            webbrowser.open_new_tab(repo.html_url)
+        except Exception as e:
+            QMessageBox.warning(self, 'Warning', f'Failed to open repository: {str(e)}')
 
-    def submitIssue(self, event):
-        reponame = self.comboboxRepositories.GetValue()
-        title = self.textIssueTitle.GetValue()
-        content = self.textIssueContent.GetValue()
-        assignee = self.comboboxAssignees.GetValue()
-        assignee = assignee if assignee != '' else None
-        milestone = self.comboboxMilestones.GetValue()
-        milestone = milestone if milestone != '' else None
-
+    def submit_issue(self):
+        reponame = self.combobox_repositories.currentText()
+        title = self.text_title.text()
+        content = self.text_content.toPlainText()
+        assignee = self.combobox_assignees.currentText() or None
+        milestone = self.combobox_milestones.currentText() or None
+        
         labels = []
-        for i in range(self.listboxLabels.GetCount()):
-            if self.listboxLabels.IsSelected(i):
-                labels.append(self.listboxLabels.GetString(i))
-
-        # check, if mandatory fields are filled
-        if title == '' or content == '':
-            wx.MessageBox('Title and content are mandatory.', 'Error', wx.OK | wx.ICON_ERROR)
+        for i in range(self.listbox_labels.count()):
+            item = self.listbox_labels.item(i)
+            if item.isSelected():
+                labels.append(item.text())
+        
+        if not title or not content:
+            QMessageBox.critical(self, 'Error', 'Title and content are mandatory.')
             return
-
-        # ask for confirmation
-        result = wx.MessageBox('Do you really want to create the issue?', 'Confirmation', wx.YES_NO | wx.ICON_QUESTION)
-        if result == wx.NO:
+        
+        reply = QMessageBox.question(self, 'Confirmation', 
+                                   'Do you really want to create the issue?')
+        if reply != QMessageBox.Yes:
             return
+        
+        try:
+            issue = github_functions.create_issue(repo=reponame, title=title, body=content, 
+                                                labels=labels, assignee=assignee, milestone=milestone)
+            
+            if issue:
+                QMessageBox.information(self, 'Success', 
+                                      f'Issue {issue.number} created successfully.')
+            else:
+                QMessageBox.critical(self, 'Error', 'Error creating issue.')
+            self.reset_ui()
+        except Exception as e:
+            QMessageBox.critical(self, 'Error', f'Failed to create issue: {str(e)}')
 
-        # create the issue
-        issue = github_functions.create_issue(repo=reponame, title=title, body=content, labels=labels, assignee=assignee, milestone=milestone)
-
-        # check if issue is created
-        if issue:
-            wx.MessageBox('Issue ' + str(issue.number) + ' created successfully.', 'Success', wx.OK | wx.ICON_INFORMATION)
+    def reset_ui(self):
+        self.load_repository_data()
+        self.text_title.clear()
+        self.text_content.clear()
+    
+    def toggle_theme(self):
+        app = QApplication.instance()
+        current_style = app.styleSheet()
+        
+        if "background-color: #2b2b2b" in current_style:
+            # Switch to light theme
+            app.setStyleSheet("")
         else:
-            wx.MessageBox('Error creating issue.', 'Error', wx.OK | wx.ICON_ERROR)
-        self.resetUI(event)
+            # Switch to dark theme
+            dark_style = """
+            QMainWindow, QDialog {
+                background-color: #2b2b2b;
+                color: #ffffff;
+            }
+            QLineEdit, QTextEdit, QComboBox, QListWidget {
+                background-color: #3c3c3c;
+                color: #ffffff;
+                border: 1px solid #555555;
+            }
+            QPushButton {
+                background-color: #404040;
+                color: #ffffff;
+                border: 1px solid #555555;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #505050;
+            }
+            QMenuBar {
+                background-color: #2b2b2b;
+                color: #ffffff;
+            }
+            QMenuBar::item:selected {
+                background-color: #404040;
+            }
+            QMenu {
+                background-color: #2b2b2b;
+                color: #ffffff;
+                border: 1px solid #555555;
+            }
+            QMenu::item:selected {
+                background-color: #404040;
+            }
+            """
+            app.setStyleSheet(dark_style)
 
-    def resetUI(self, event):
-        self.loadRepositoryData(event)
-        self.textIssueTitle.SetValue('')
-        self.textIssueContent.SetValue('')
+
+def main():
+    app = QApplication(sys.argv)
+    frame = GitHubIssueClientFrame()
+    frame.show()
+    sys.exit(app.exec())
 
 
-# mandatory in wx, create an app, False stands for not deteriction stdin/stdout
-# refer manual for details
-app = wx.App(False)
-
-# create an object of CalcFrame
-frame = GitHubIssueClientFrame(None)
-
-# show the frame
-frame.Show(True)
-
-# start the applications
-app.MainLoop()
+if __name__ == "__main__":
+    main()

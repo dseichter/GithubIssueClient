@@ -1,440 +1,278 @@
 # -*- coding: utf-8 -*-
 
 ###########################################################################
-## Python code generated with wxFormBuilder (version 4.2.1-0-g80c4cb6)
-## http://www.wxformbuilder.org/
+## Python code generated for PySide6 migration
+## Converted from wxFormBuilder to PySide6
 ##
 ## PLEASE DO *NOT* EDIT THIS FILE!
 ###########################################################################
 
-import wx
-import wx.xrc
-
-ID_CLOSE = 6000
-ID_CONFIGURATION = 6001
-ID_GET_HELP = 6002
-ID_CHECK_FOR_UPDATES = 6003
-ID_ABOUT = 6004
+from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
+                               QGridLayout, QLabel, QComboBox, QPushButton, 
+                               QListWidget, QTextEdit, QLineEdit, QFrame,
+                               QDialog, QRadioButton, QCheckBox, QDialogButtonBox)
+from PySide6.QtCore import Signal
 
 ###########################################################################
-## Class MainFrame
+## Class MainWindow
 ###########################################################################
 
-class MainFrame ( wx.Frame ):
-
-    def __init__( self, parent ):
-        wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"GitHub Issue Client", pos = wx.DefaultPosition, size = wx.Size( 543,378 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
-
-        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
-
-        self.m_menubar1 = wx.MenuBar( 0 )
-        self.menuitemFile = wx.Menu()
-        self.menuitemFileClose = wx.MenuItem( self.menuitemFile, ID_CLOSE, u"Close", wx.EmptyString, wx.ITEM_NORMAL )
-        self.menuitemFile.Append( self.menuitemFileClose )
-
-        self.m_menubar1.Append( self.menuitemFile, u"File" )
-
-        self.menuItemExtras = wx.Menu()
-        self.menuitemExtrasConfiguration = wx.MenuItem( self.menuItemExtras, ID_CONFIGURATION, u"Configuration", wx.EmptyString, wx.ITEM_NORMAL )
-        self.menuItemExtras.Append( self.menuitemExtrasConfiguration )
-
-        self.m_menubar1.Append( self.menuItemExtras, u"Extras" )
-
-        self.menuitemHelp = wx.Menu()
-        self.menuitemHelpSupport = wx.MenuItem( self.menuitemHelp, ID_GET_HELP, u"Support...", wx.EmptyString, wx.ITEM_NORMAL )
-        self.menuitemHelp.Append( self.menuitemHelpSupport )
-
-        self.menuitemHelpUpdate = wx.MenuItem( self.menuitemHelp, ID_CHECK_FOR_UPDATES, u"Check for updates", wx.EmptyString, wx.ITEM_NORMAL )
-        self.menuitemHelp.Append( self.menuitemHelpUpdate )
-
-        self.menuitemHelpAbout = wx.MenuItem( self.menuitemHelp, ID_ABOUT, u"About...", wx.EmptyString, wx.ITEM_NORMAL )
-        self.menuitemHelp.Append( self.menuitemHelpAbout )
-
-        self.m_menubar1.Append( self.menuitemHelp, u"Help" )
-
-        self.SetMenuBar( self.m_menubar1 )
-
-        bSizer2 = wx.BoxSizer( wx.VERTICAL )
-
-        bSizer2.SetMinSize( wx.Size( 500,500 ) )
-        self.m_panel1 = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-        fgSizer4 = wx.FlexGridSizer( 0, 3, 0, 0 )
-        fgSizer4.AddGrowableCol( 1 )
-        fgSizer4.AddGrowableRow( 7 )
-        fgSizer4.SetFlexibleDirection( wx.BOTH )
-        fgSizer4.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-
-        self.statictextRepositories = wx.StaticText( self.m_panel1, wx.ID_ANY, u"Repository", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextRepositories.Wrap( -1 )
-
-        fgSizer4.Add( self.statictextRepositories, 0, wx.ALL, 5 )
-
-        comboboxRepositoriesChoices = []
-        self.comboboxRepositories = wx.ComboBox( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, comboboxRepositoriesChoices, 0 )
-        fgSizer4.Add( self.comboboxRepositories, 1, wx.ALL|wx.EXPAND, 5 )
-
-        self.buttonReloadRepositories = wx.Button( self.m_panel1, wx.ID_ANY, u"Reload", wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer4.Add( self.buttonReloadRepositories, 1, wx.ALL, 5 )
-
-        self.statictextLabels = wx.StaticText( self.m_panel1, wx.ID_ANY, u"Labels", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextLabels.Wrap( -1 )
-
-        fgSizer4.Add( self.statictextLabels, 0, wx.ALL, 5 )
-
-        listboxLabelsChoices = []
-        self.listboxLabels = wx.ListBox( self.m_panel1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, listboxLabelsChoices, wx.LB_MULTIPLE|wx.LB_SORT )
-        fgSizer4.Add( self.listboxLabels, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.statictextMilestones = wx.StaticText( self.m_panel1, wx.ID_ANY, u"Milestones", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextMilestones.Wrap( -1 )
-
-        fgSizer4.Add( self.statictextMilestones, 0, wx.ALL, 5 )
-
-        comboboxMilestonesChoices = []
-        self.comboboxMilestones = wx.ComboBox( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, comboboxMilestonesChoices, 0 )
-        fgSizer4.Add( self.comboboxMilestones, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.statictextAssignees = wx.StaticText( self.m_panel1, wx.ID_ANY, u"Assign to", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextAssignees.Wrap( -1 )
-
-        fgSizer4.Add( self.statictextAssignees, 0, wx.ALL, 5 )
-
-        comboboxAssigneesChoices = []
-        self.comboboxAssignees = wx.ComboBox( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, comboboxAssigneesChoices, 0 )
-        fgSizer4.Add( self.comboboxAssignees, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.statictextIssueTemplates = wx.StaticText( self.m_panel1, wx.ID_ANY, u"Templates", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextIssueTemplates.Wrap( -1 )
-
-        fgSizer4.Add( self.statictextIssueTemplates, 0, wx.ALL, 5 )
-
-        comboboxIssueTemplatesChoices = []
-        self.comboboxIssueTemplates = wx.ComboBox( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, comboboxIssueTemplatesChoices, 0 )
-        fgSizer4.Add( self.comboboxIssueTemplates, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.m_staticline2 = wx.StaticLine( self.m_panel1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
-        fgSizer4.Add( self.m_staticline2, 0, wx.EXPAND |wx.ALL, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.statictextIssueTitle = wx.StaticText( self.m_panel1, wx.ID_ANY, u"Title", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextIssueTitle.Wrap( -1 )
-
-        fgSizer4.Add( self.statictextIssueTitle, 0, wx.ALL, 5 )
-
-        self.textIssueTitle = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer4.Add( self.textIssueTitle, 1, wx.ALL|wx.EXPAND, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.statictextIssueContent = wx.StaticText( self.m_panel1, wx.ID_ANY, u"Content", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextIssueContent.Wrap( -1 )
-
-        fgSizer4.Add( self.statictextIssueContent, 0, wx.ALL, 5 )
-
-        self.textIssueContent = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_DONTWRAP|wx.TE_MULTILINE )
-        self.textIssueContent.SetMinSize( wx.Size( -1,300 ) )
-
-        fgSizer4.Add( self.textIssueContent, 1, wx.ALL|wx.EXPAND|wx.FIXED_MINSIZE, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.m_staticline1 = wx.StaticLine( self.m_panel1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.LI_HORIZONTAL )
-        fgSizer4.Add( self.m_staticline1, 0, wx.EXPAND |wx.ALL, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-
-        fgSizer4.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.m_panel2 = wx.Panel( self.m_panel1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-        fgSizer2 = wx.FlexGridSizer( 0, 3, 0, 0 )
-        fgSizer2.SetFlexibleDirection( wx.BOTH )
-        fgSizer2.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-
-        self.buttonOpenRepository = wx.Button( self.m_panel2, wx.ID_ANY, u"Open Repository", wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer2.Add( self.buttonOpenRepository, 1, wx.ALL, 5 )
-
-        self.buttonSubmitIssue = wx.Button( self.m_panel2, wx.ID_ANY, u"Submit Issue", wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer2.Add( self.buttonSubmitIssue, 1, wx.ALL, 5 )
-
-        self.buttonReset = wx.Button( self.m_panel2, wx.ID_ANY, u"Reset", wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer2.Add( self.buttonReset, 0, wx.ALL, 5 )
-
-
-        self.m_panel2.SetSizer( fgSizer2 )
-        self.m_panel2.Layout()
-        fgSizer2.Fit( self.m_panel2 )
-        fgSizer4.Add( self.m_panel2, 1, wx.ALL, 5 )
-
-
-        self.m_panel1.SetSizer( fgSizer4 )
-        self.m_panel1.Layout()
-        fgSizer4.Fit( self.m_panel1 )
-        bSizer2.Add( self.m_panel1, 1, wx.EXPAND |wx.ALL, 5 )
-
-
-        self.SetSizer( bSizer2 )
-        self.Layout()
-
-        self.Centre( wx.BOTH )
-
-        # Connect Events
-        self.Bind( wx.EVT_CLOSE, self.gicClose )
-        self.Bind( wx.EVT_SHOW, self.gicShow )
-        self.Bind( wx.EVT_MENU, self.miFileClose, id = self.menuitemFileClose.GetId() )
-        self.Bind( wx.EVT_MENU, self.miExtrasConfiguration, id = self.menuitemExtrasConfiguration.GetId() )
-        self.Bind( wx.EVT_MENU, self.miHelpSupport, id = self.menuitemHelpSupport.GetId() )
-        self.Bind( wx.EVT_MENU, self.miHelpUpdate, id = self.menuitemHelpUpdate.GetId() )
-        self.Bind( wx.EVT_MENU, self.miHelpAbout, id = self.menuitemHelpAbout.GetId() )
-        self.comboboxRepositories.Bind( wx.EVT_COMBOBOX, self.loadRepositoryData )
-        self.buttonReloadRepositories.Bind( wx.EVT_BUTTON, self.loadRepositories )
-        self.comboboxIssueTemplates.Bind( wx.EVT_COMBOBOX, self.loadIssueTemplate )
-        self.buttonOpenRepository.Bind( wx.EVT_BUTTON, self.openRepository )
-        self.buttonSubmitIssue.Bind( wx.EVT_BUTTON, self.submitIssue )
-        self.buttonReset.Bind( wx.EVT_BUTTON, self.resetUI )
-
-    def __del__( self ):
-        pass
-
-
-    # Virtual event handlers, override them in your derived class
-    def gicClose( self, event ):
-        event.Skip()
-
-    def gicShow( self, event ):
-        event.Skip()
-
-    def miFileClose( self, event ):
-        event.Skip()
-
-    def miExtrasConfiguration( self, event ):
-        event.Skip()
-
-    def miHelpSupport( self, event ):
-        event.Skip()
-
-    def miHelpUpdate( self, event ):
-        event.Skip()
-
-    def miHelpAbout( self, event ):
-        event.Skip()
-
-    def loadRepositoryData( self, event ):
-        event.Skip()
-
-    def loadRepositories( self, event ):
-        event.Skip()
-
-    def loadIssueTemplate( self, event ):
-        event.Skip()
-
-    def openRepository( self, event ):
-        event.Skip()
-
-    def submitIssue( self, event ):
-        event.Skip()
-
-    def resetUI( self, event ):
-        event.Skip()
-
+class MainWindow(QMainWindow):
+    # Signals
+    repositoryChanged = Signal()
+    reloadRepositories = Signal()
+    templateChanged = Signal()
+    openRepository = Signal()
+    submitIssue = Signal()
+    resetUI = Signal()
+    
+    # Menu signals
+    fileClose = Signal()
+    extrasConfiguration = Signal()
+    helpSupport = Signal()
+    helpUpdate = Signal()
+    helpAbout = Signal()
+    themeToggle = Signal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("GitHub Issue Client")
+        self.resize(543, 378)
+        
+        # Create central widget
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        
+        # Create main layout
+        main_layout = QVBoxLayout(central_widget)
+        
+        # Create form layout
+        form_layout = QGridLayout()
+        
+        # Repository section
+        self.label_repositories = QLabel("Repository")
+        self.combobox_repositories = QComboBox()
+        self.button_reload_repositories = QPushButton("Reload")
+        
+        form_layout.addWidget(self.label_repositories, 0, 0)
+        form_layout.addWidget(self.combobox_repositories, 0, 1)
+        form_layout.addWidget(self.button_reload_repositories, 0, 2)
+        
+        # Labels section
+        self.label_labels = QLabel("Labels")
+        self.listbox_labels = QListWidget()
+        self.listbox_labels.setSelectionMode(QListWidget.MultiSelection)
+        
+        form_layout.addWidget(self.label_labels, 1, 0)
+        form_layout.addWidget(self.listbox_labels, 1, 1)
+        
+        # Milestones section
+        self.label_milestones = QLabel("Milestones")
+        self.combobox_milestones = QComboBox()
+        
+        form_layout.addWidget(self.label_milestones, 2, 0)
+        form_layout.addWidget(self.combobox_milestones, 2, 1)
+        
+        # Assignees section
+        self.label_assignees = QLabel("Assign to")
+        self.combobox_assignees = QComboBox()
+        
+        form_layout.addWidget(self.label_assignees, 3, 0)
+        form_layout.addWidget(self.combobox_assignees, 3, 1)
+        
+        # Templates section
+        self.label_templates = QLabel("Templates")
+        self.combobox_templates = QComboBox()
+        
+        form_layout.addWidget(self.label_templates, 4, 0)
+        form_layout.addWidget(self.combobox_templates, 4, 1)
+        
+        # Separator
+        separator1 = QFrame()
+        separator1.setFrameShape(QFrame.HLine)
+        form_layout.addWidget(separator1, 5, 0, 1, 3)
+        
+        # Title section
+        self.label_title = QLabel("Title")
+        self.text_title = QLineEdit()
+        
+        form_layout.addWidget(self.label_title, 6, 0)
+        form_layout.addWidget(self.text_title, 6, 1)
+        
+        # Content section
+        self.label_content = QLabel("Content")
+        self.text_content = QTextEdit()
+        self.text_content.setMinimumHeight(300)
+        
+        form_layout.addWidget(self.label_content, 7, 0)
+        form_layout.addWidget(self.text_content, 7, 1)
+        
+        # Separator
+        separator2 = QFrame()
+        separator2.setFrameShape(QFrame.HLine)
+        form_layout.addWidget(separator2, 8, 0, 1, 3)
+        
+        # Buttons section
+        button_layout = QHBoxLayout()
+        self.button_open_repository = QPushButton("Open Repository")
+        self.button_submit_issue = QPushButton("Submit Issue")
+        self.button_reset = QPushButton("Reset")
+        
+        button_layout.addWidget(self.button_open_repository)
+        button_layout.addWidget(self.button_submit_issue)
+        button_layout.addWidget(self.button_reset)
+        
+        form_layout.addLayout(button_layout, 9, 1)
+        
+        main_layout.addLayout(form_layout)
+        
+        # Connect signals
+        self.combobox_repositories.currentTextChanged.connect(self.repositoryChanged)
+        self.button_reload_repositories.clicked.connect(self.reloadRepositories)
+        self.combobox_templates.currentTextChanged.connect(self.templateChanged)
+        self.button_open_repository.clicked.connect(self.openRepository)
+        self.button_submit_issue.clicked.connect(self.submitIssue)
+        self.button_reset.clicked.connect(self.resetUI)
+        
+        # Create menu bar
+        self.create_menu_bar()
+    
+    def create_menu_bar(self):
+        import icons
+        menubar = self.menuBar()
+        
+        # File menu
+        file_menu = menubar.addMenu("File")
+        close_action = file_menu.addAction(icons.get_icon('logout_24dp_8b1a10_fill0_wght400_grad0_opsz24'), "Close")
+        close_action.triggered.connect(self.fileClose)
+        
+        # Extras menu
+        extras_menu = menubar.addMenu("Extras")
+        config_action = extras_menu.addAction(icons.get_icon('settings_24dp_8b1a10_fill0_wght400_grad0_opsz24'), "Configuration")
+        config_action.triggered.connect(self.extrasConfiguration)
+        
+        extras_menu.addSeparator()
+        theme_action = extras_menu.addAction("Toggle Dark/Light Theme")
+        theme_action.triggered.connect(self.themeToggle)
+        
+        # Help menu
+        help_menu = menubar.addMenu("Help")
+        support_action = help_menu.addAction(icons.get_icon('globe_24dp_8B1A10_FILL0_wght400_GRAD0_opsz24'), "Support...")
+        support_action.triggered.connect(self.helpSupport)
+        
+        update_action = help_menu.addAction(icons.get_icon('update_24dp_8B1A10_FILL0_wght400_GRAD0_opsz24'), "Check for updates")
+        update_action.triggered.connect(self.helpUpdate)
+        
+        about_action = help_menu.addAction(icons.get_icon('info_24dp_8B1A10_FILL0_wght400_GRAD0_opsz24'), "About...")
+        about_action.triggered.connect(self.helpAbout)
 
 ###########################################################################
-## Class dialogConfiguration
+## Class ConfigurationDialog
 ###########################################################################
 
-class dialogConfiguration ( wx.Dialog ):
-
-    def __init__( self, parent ):
-        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Configuration", pos = wx.DefaultPosition, size = wx.Size( 400,248 ), style = wx.DEFAULT_DIALOG_STYLE )
-
-        self.SetSizeHints( wx.Size( 400,-1 ), wx.DefaultSize )
-
-        fgSizer3 = wx.FlexGridSizer( 0, 2, 0, 0 )
-        fgSizer3.SetFlexibleDirection( wx.BOTH )
-        fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-
-        fgSizer3.SetMinSize( wx.Size( 300,-1 ) )
-        self.statictextUsername = wx.StaticText( self, wx.ID_ANY, u"Username", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextUsername.Wrap( -1 )
-
-        fgSizer3.Add( self.statictextUsername, 0, wx.ALL, 5 )
-
-        self.textUsername = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer3.Add( self.textUsername, 0, wx.ALL, 5 )
-
-        self.statictextPAT = wx.StaticText( self, wx.ID_ANY, u"PersonalAccessToken", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextPAT.Wrap( -1 )
-
-        fgSizer3.Add( self.statictextPAT, 0, wx.ALL, 5 )
-
-        self.textPAT = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.textPAT.SetMinSize( wx.Size( 400,-1 ) )
-
-        fgSizer3.Add( self.textPAT, 0, wx.ALL|wx.EXPAND, 5 )
-
-        self.radiobuttonGitHub = wx.RadioButton( self, wx.ID_ANY, u"Github.com", wx.DefaultPosition, wx.DefaultSize, wx.RB_GROUP )
-        fgSizer3.Add( self.radiobuttonGitHub, 0, wx.ALL, 5 )
-
-
-        fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.radiobuttonGHE = wx.RadioButton( self, wx.ID_ANY, u"GitHub Enterprise", wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer3.Add( self.radiobuttonGHE, 0, wx.ALL, 5 )
-
-
-        fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.statictextGHEUrl = wx.StaticText( self, wx.ID_ANY, u"GitHub Enterprise URL", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.statictextGHEUrl.Wrap( -1 )
-
-        fgSizer3.Add( self.statictextGHEUrl, 0, wx.ALL, 5 )
-
-        self.textGHEURL = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.textGHEURL.SetMinSize( wx.Size( 400,-1 ) )
-
-        fgSizer3.Add( self.textGHEURL, 0, wx.ALL|wx.EXPAND, 5 )
-
-
-        fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        self.checkboxUpdate = wx.CheckBox( self, wx.ID_ANY, u"Check for updates on startup?", wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer3.Add( self.checkboxUpdate, 0, wx.ALL, 5 )
-
-
-        fgSizer3.Add( ( 0, 0), 1, wx.EXPAND, 5 )
-
-        fgSizer6 = wx.FlexGridSizer( 0, 2, 0, 0 )
-        fgSizer6.SetFlexibleDirection( wx.BOTH )
-        fgSizer6.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-
-        self.buttonSave = wx.Button( self, wx.ID_ANY, u"Save", wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer6.Add( self.buttonSave, 0, wx.ALL, 5 )
-
-        self.buttonCancel = wx.Button( self, wx.ID_ANY, u"Cancel", wx.DefaultPosition, wx.DefaultSize, 0 )
-        fgSizer6.Add( self.buttonCancel, 0, wx.ALL, 5 )
-
-
-        fgSizer3.Add( fgSizer6, 1, wx.EXPAND, 5 )
-
-
-        self.SetSizer( fgSizer3 )
-        self.Layout()
-
-        self.Centre( wx.BOTH )
-
-        # Connect Events
-        self.Bind( wx.EVT_SHOW, self.showConfig )
-        self.buttonSave.Bind( wx.EVT_BUTTON, self.saveConfig )
-        self.buttonCancel.Bind( wx.EVT_BUTTON, self.closeConfig )
-
-    def __del__( self ):
-        pass
-
-
-    # Virtual event handlers, override them in your derived class
-    def showConfig( self, event ):
-        event.Skip()
-
-    def saveConfig( self, event ):
-        event.Skip()
-
-    def closeConfig( self, event ):
-        event.Skip()
-
+class ConfigurationDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Configuration")
+        self.setMinimumSize(500, 280)
+        
+        layout = QGridLayout(self)
+        layout.setColumnStretch(1, 1)
+        
+        # Username
+        self.label_username = QLabel("Username")
+        self.text_username = QLineEdit()
+        layout.addWidget(self.label_username, 0, 0)
+        layout.addWidget(self.text_username, 0, 1, 1, 2)
+        
+        # Personal Access Token
+        self.label_pat = QLabel("PersonalAccessToken")
+        self.text_pat = QLineEdit()
+        self.text_pat.setEchoMode(QLineEdit.Password)
+        self.button_show_pat = QPushButton("Show")
+        self.button_show_pat.setFixedWidth(60)
+        self.button_test_pat = QPushButton("Test")
+        self.button_test_pat.setFixedWidth(60)
+        
+        layout.addWidget(self.label_pat, 1, 0)
+        layout.addWidget(self.text_pat, 1, 1)
+        layout.addWidget(self.button_show_pat, 1, 2)
+        layout.addWidget(self.button_test_pat, 1, 3)
+        
+        # Connect PAT buttons
+        self.button_show_pat.clicked.connect(self.toggle_pat_visibility)
+        self.button_test_pat.clicked.connect(self.test_pat)
+        
+        # GitHub.com radio button
+        self.radio_github = QRadioButton("Github.com")
+        self.radio_github.setChecked(True)
+        layout.addWidget(self.radio_github, 2, 0, 1, 2)
+        
+        # GitHub Enterprise radio button
+        self.radio_ghe = QRadioButton("GitHub Enterprise")
+        layout.addWidget(self.radio_ghe, 3, 0, 1, 2)
+        
+        # GitHub Enterprise URL
+        self.label_ghe_url = QLabel("GitHub Enterprise URL")
+        self.text_ghe_url = QLineEdit()
+        layout.addWidget(self.label_ghe_url, 4, 0)
+        layout.addWidget(self.text_ghe_url, 4, 1, 1, 3)
+        
+        # Update check
+        self.checkbox_update = QCheckBox("Check for updates on startup?")
+        layout.addWidget(self.checkbox_update, 5, 0, 1, 4)
+        
+        # Buttons
+        button_box = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
+        layout.addWidget(button_box, 6, 0, 1, 4)
+    
+    def toggle_pat_visibility(self):
+        if self.text_pat.echoMode() == QLineEdit.Password:
+            self.text_pat.setEchoMode(QLineEdit.Normal)
+            self.button_show_pat.setText("Hide")
+        else:
+            self.text_pat.setEchoMode(QLineEdit.Password)
+            self.button_show_pat.setText("Show")
+    
+    def test_pat(self):
+        pass  # To be implemented in derived class
 
 ###########################################################################
-## Class dialogAbout
+## Class AboutDialog
 ###########################################################################
 
-class dialogAbout ( wx.Dialog ):
-
-    def __init__( self, parent ):
-        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About GitHub Issue Client", pos = wx.DefaultPosition, size = wx.DefaultSize, style = wx.DEFAULT_DIALOG_STYLE )
-
-        self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
-
-        bSizer2 = wx.BoxSizer( wx.VERTICAL )
-
-        self.bitmapLogo = wx.StaticBitmap( self, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
-        bSizer2.Add( self.bitmapLogo, 0, wx.ALL, 5 )
-
-        self.staticTextName = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.staticTextName.Wrap( -1 )
-
-        bSizer2.Add( self.staticTextName, 0, wx.ALL, 5 )
-
-        self.staticTextLicence = wx.StaticText( self, wx.ID_ANY, u"Licenced under", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.staticTextLicence.Wrap( -1 )
-
-        bSizer2.Add( self.staticTextLicence, 0, wx.ALL, 5 )
-
-        self.staticTextGithub = wx.StaticText( self, wx.ID_ANY, u"More on GitHub", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.staticTextGithub.Wrap( -1 )
-
-        self.staticTextGithub.SetFont( wx.Font( wx.NORMAL_FONT.GetPointSize(), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, True, wx.EmptyString ) )
-        self.staticTextGithub.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_HIGHLIGHT ) )
-
-        bSizer2.Add( self.staticTextGithub, 0, wx.ALL, 5 )
-
-        self.staticTextIcon8 = wx.StaticText( self, wx.ID_ANY, u"Icons by Icons8.com", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.staticTextIcon8.Wrap( -1 )
-
-        self.staticTextIcon8.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_GRAYTEXT ) )
-
-        bSizer2.Add( self.staticTextIcon8, 0, wx.ALL, 5 )
-
-        m_sdbSizer2 = wx.StdDialogButtonSizer()
-        self.m_sdbSizer2OK = wx.Button( self, wx.ID_OK )
-        m_sdbSizer2.AddButton( self.m_sdbSizer2OK )
-        self.m_sdbSizer2Cancel = wx.Button( self, wx.ID_CANCEL )
-        m_sdbSizer2.AddButton( self.m_sdbSizer2Cancel )
-        m_sdbSizer2.Realize()
-
-        bSizer2.Add( m_sdbSizer2, 1, wx.EXPAND, 5 )
-
-
-        self.SetSizer( bSizer2 )
-        self.Layout()
-        bSizer2.Fit( self )
-
-        self.Centre( wx.BOTH )
-
-        # Connect Events
-        self.staticTextGithub.Bind( wx.EVT_LEFT_DOWN, self.openGithub )
-        self.staticTextIcon8.Bind( wx.EVT_LEFT_DOWN, self.openIcons8 )
-
-    def __del__( self ):
-        pass
-
-
-    # Virtual event handlers, override them in your derived class
-    def openGithub( self, event ):
-        event.Skip()
-
-    def openIcons8( self, event ):
-        event.Skip()
-
-
+class AboutDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("About GitHub Issue Client")
+        
+        layout = QVBoxLayout(self)
+        
+        # Logo
+        self.label_logo = QLabel()
+        layout.addWidget(self.label_logo)
+        
+        # Name
+        self.label_name = QLabel("MyLabel")
+        layout.addWidget(self.label_name)
+        
+        # License
+        self.label_license = QLabel("Licenced under")
+        layout.addWidget(self.label_license)
+        
+        # GitHub link
+        self.label_github = QLabel("More on GitHub")
+        self.label_github.setStyleSheet("color: blue; text-decoration: underline;")
+        self.label_github.mousePressEvent = self.open_github
+        layout.addWidget(self.label_github)
+        
+        # Buttons
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
+        layout.addWidget(button_box)
+    
+    def open_github(self, event):
+        pass  # To be implemented in derived class
