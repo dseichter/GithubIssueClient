@@ -31,7 +31,7 @@ jobs:
             run: pyinstaller --onefile -w src/githubissueclient.py -n githubissueclient-windows-${{ github.ref_name }}.exe --icon=icons/gic.ico
 
           - name: Upload artifact
-            uses: actions/upload-artifact@v5
+            uses: actions/upload-artifact@v6
             with:
                   name: githubissueclient-windows-${{ github.ref_name }}.exe
                   path: dist/githubissueclient-windows-${{ github.ref_name }}.exe   
@@ -63,7 +63,7 @@ jobs:
             run: pyinstaller --onefile src/githubissueclient.py -n githubissueclient-linux-${{ github.ref_name }}
 
           - name: Upload artifact
-            uses: actions/upload-artifact@v5
+            uses: actions/upload-artifact@v6
             with:
               name: githubissueclient-linux-${{ github.ref_name }}
               path: dist/githubissueclient-linux-${{ github.ref_name }}
