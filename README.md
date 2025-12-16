@@ -2,7 +2,8 @@
 
 Create really simple a new task in your GitHub repositories with the GitHub Issue Client.
 
-![pep8](https://github.com/dseichter/GithubIssueClient/actions/workflows/pep8.yml/badge.svg)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/dseichter/GithubIssueClient/total)](https://github.com/dseichter/GithubIssueClient/releases)
+![ruff](https://github.com/dseichter/GithubIssueClient/actions/workflows/ruff.yml/badge.svg)
 ![trivy](https://github.com/dseichter/GithubIssueClient/actions/workflows/trivy.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=dseichter_GithubIssueClient&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=dseichter_GithubIssueClient)
 
