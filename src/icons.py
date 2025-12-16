@@ -3,7 +3,6 @@
 # It contains base64-encoded PNG icons for use with PySide6
 #
 
-import base64
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtCore import QByteArray
 

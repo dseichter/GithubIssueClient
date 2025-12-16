@@ -10,10 +10,8 @@
 from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
                                QGridLayout, QLabel, QComboBox, QPushButton, 
                                QListWidget, QTextEdit, QLineEdit, QFrame,
-                               QDialog, QRadioButton, QCheckBox, QDialogButtonBox,
-                               QMessageBox)
-from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QPixmap, QIcon
+                               QDialog, QRadioButton, QCheckBox, QDialogButtonBox)
+from PySide6.QtCore import Signal
 
 ###########################################################################
 ## Class MainWindow

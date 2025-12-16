@@ -16,7 +16,6 @@
 import sys
 import webbrowser
 from PySide6.QtWidgets import QApplication, QMessageBox
-from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
 import gui
