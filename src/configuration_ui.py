@@ -13,9 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+from PySide6.QtWidgets import QMessageBox
 from gui import ConfigurationDialog
 import settings
 import icons
+import github_functions
 
 
 class DialogConfiguration(ConfigurationDialog):
@@ -32,9 +34,27 @@ class DialogConfiguration(ConfigurationDialog):
         self.text_ghe_url.setText(config['ghe_url'])
         self.checkbox_update.setChecked(config['update_check'])
 
+    def test_pat(self):
+        
+        pat = self.text_pat.text().strip()
+        if not pat:
+            QMessageBox.warning(self, "Warning", "Please enter a Personal Access Token")
+            return
+        
+        if not github_functions.check_pat(pat, self.radio_github.isChecked(), self.text_ghe_url.text()):
+            QMessageBox.warning(self, "Warning", "Invalid Personal Access Token")
+        else:
+            QMessageBox.information(self, "Success", "PAT is valid.")
+        
+
     def accept(self):
+        pat = self.text_pat.text().strip()
+        if not pat:
+            QMessageBox.critical(self, "Error", "Personal Access Token is required")
+            return
+            
         settings.save_config('username', self.text_username.text())
-        settings.save_config('personal_access_token', self.text_pat.text())
+        settings.save_config('personal_access_token', pat)
         settings.save_config('use_github', self.radio_github.isChecked())
         settings.save_config('use_ghe', self.radio_ghe.isChecked())
         settings.save_config('ghe_url', self.text_ghe_url.text())

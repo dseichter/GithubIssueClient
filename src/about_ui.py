@@ -26,9 +26,8 @@ class DialogAbout(AboutDialog):
         self.label_name.setText(f"{helper.NAME} {helper.VERSION}")
         self.label_license.setText(f"Licenced under {helper.LICENCE}")
         
-        self.setWindowIcon(icons.get_icon('bug_report_48dp_8B1A10_FILL0_wght400_GRAD0_opsz48'))
-        pixmap = icons.get_icon('bug_report_48dp_8B1A10_FILL0_wght400_GRAD0_opsz48').pixmap(48, 48)
-        self.logo_label.setPixmap(pixmap)
+        self.setWindowIcon(icons.info_icon())
+        self.label_logo.setPixmap(icons.github_pixmap())
         self.adjustSize()
 
     def open_github(self, event):

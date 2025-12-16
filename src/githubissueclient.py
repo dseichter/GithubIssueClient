@@ -27,7 +27,6 @@ import helper
 import icons
 import github_functions
 
-
 class GitHubIssueClientFrame(gui.MainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -58,10 +57,23 @@ class GitHubIssueClientFrame(gui.MainWindow):
         settings.create_config()
         self.setWindowTitle(f"{helper.NAME} {helper.VERSION}")
         
-        if settings.read_config()['personal_access_token'] == '':
-            QMessageBox.information(self, 'Missing configuration', 
-                                  'Please add/adjust your configuration.')
+        config = settings.read_config()
+        if not config['personal_access_token']:
+            QMessageBox.critical(self, 'Missing Credentials', 
+                               'Personal Access Token is required to use this application.\n\n'
+                               'Please configure your GitHub credentials.')
             self.show_configuration()
+            return
+        
+        # Test PAT validity
+        try:
+            github_functions.check_pat(config['personal_access_token'], config['use_github'], config['ghe_url'])
+        except Exception:
+            QMessageBox.critical(self, 'Invalid Credentials', 
+                               'Your Personal Access Token appears to be invalid.\n\n'
+                               'Please check your configuration.')
+            self.show_configuration()
+            return
         
         self.load_repositories()
         
@@ -94,49 +106,61 @@ class GitHubIssueClientFrame(gui.MainWindow):
 
     def load_repositories(self):
         self.combobox_repositories.clear()
-        repos = github_functions.get_repos()
-        for repo in repos:
-            self.combobox_repositories.addItem(repo.full_name)
+        try:
+            repos = github_functions.get_repos()
+            for repo in repos:
+                self.combobox_repositories.addItem(repo.full_name)
+        except Exception as e:
+            QMessageBox.critical(self, 'Error', f'Failed to load repositories: {str(e)}')
 
     def load_repository_data(self):
         repo = self.combobox_repositories.currentText()
         if not repo:
             return
             
-        # Load labels
-        labels = github_functions.get_labels(repo)
-        self.listbox_labels.clear()
-        for label in labels:
-            self.listbox_labels.addItem(label.name)
-            
-        # Load milestones
-        self.combobox_milestones.clear()
-        milestones = github_functions.get_milestones(repo)
-        for milestone in milestones:
-            self.combobox_milestones.addItem(milestone.title)
-            
-        # Load assignees
-        self.combobox_assignees.clear()
-        assignees = github_functions.get_assignees(repo)
-        for assignee in assignees:
-            self.combobox_assignees.addItem(assignee.name)
-            
-        # Load templates
-        self.combobox_templates.clear()
-        templates = github_functions.get_issue_templates(repo)
-        for template in templates:
-            self.combobox_templates.addItem(template)
+        try:
+            # Load labels
+            labels = github_functions.get_labels(repo)
+            self.listbox_labels.clear()
+            for label in labels:
+                self.listbox_labels.addItem(label.name)
+                
+            # Load milestones
+            self.combobox_milestones.clear()
+            milestones = github_functions.get_milestones(repo)
+            for milestone in milestones:
+                self.combobox_milestones.addItem(milestone.title)
+                
+            # Load assignees
+            self.combobox_assignees.clear()
+            assignees = github_functions.get_assignees(repo)
+            for assignee in assignees:
+                self.combobox_assignees.addItem(assignee.name)
+                
+            # Load templates
+            self.combobox_templates.clear()
+            templates = github_functions.get_issue_templates(repo)
+            for template in templates:
+                self.combobox_templates.addItem(template)
+        except Exception as e:
+            QMessageBox.warning(self, 'Warning', f'Failed to load repository data: {str(e)}')
 
     def load_issue_template(self):
         template = self.combobox_templates.currentText()
         repo = self.combobox_repositories.currentText()
         if template and repo:
-            content = github_functions.get_issue_template(repo, template)
-            self.text_content.setPlainText(content)
+            try:
+                content = github_functions.get_issue_template(repo, template)
+                self.text_content.setPlainText(content)
+            except Exception as e:
+                QMessageBox.warning(self, 'Warning', f'Failed to load template: {str(e)}')
 
     def open_repository(self):
-        repo = github_functions.get_repo(self.combobox_repositories.currentText())
-        webbrowser.open_new_tab(repo.html_url)
+        try:
+            repo = github_functions.get_repo(self.combobox_repositories.currentText())
+            webbrowser.open_new_tab(repo.html_url)
+        except Exception as e:
+            QMessageBox.warning(self, 'Warning', f'Failed to open repository: {str(e)}')
 
     def submit_issue(self):
         reponame = self.combobox_repositories.currentText()
@@ -160,15 +184,18 @@ class GitHubIssueClientFrame(gui.MainWindow):
         if reply != QMessageBox.Yes:
             return
         
-        issue = github_functions.create_issue(repo=reponame, title=title, body=content, 
-                                            labels=labels, assignee=assignee, milestone=milestone)
-        
-        if issue:
-            QMessageBox.information(self, 'Success', 
-                                  f'Issue {issue.number} created successfully.')
-        else:
-            QMessageBox.critical(self, 'Error', 'Error creating issue.')
-        self.reset_ui()
+        try:
+            issue = github_functions.create_issue(repo=reponame, title=title, body=content, 
+                                                labels=labels, assignee=assignee, milestone=milestone)
+            
+            if issue:
+                QMessageBox.information(self, 'Success', 
+                                      f'Issue {issue.number} created successfully.')
+            else:
+                QMessageBox.critical(self, 'Error', 'Error creating issue.')
+            self.reset_ui()
+        except Exception as e:
+            QMessageBox.critical(self, 'Error', f'Failed to create issue: {str(e)}')
 
     def reset_ui(self):
         self.load_repository_data()

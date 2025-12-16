@@ -115,3 +115,24 @@ def get_icon(name):
     print(f"Warning: Icon '{name}' not found in catalog")
     return QIcon()
 
+def github_icon():
+    return get_icon('globe_24dp_8b1a10_fill0_wght400_grad0_opsz24')
+
+def github_pixmap():
+    return github_icon().pixmap(64, 64)
+
+def settings_icon():
+    return get_icon('settings_24dp_8b1a10_fill0_wght400_grad0_opsz24')
+
+def info_icon():
+    return get_icon('info_24dp_8b1a10_fill0_wght400_grad0_opsz24')
+
+def cancel_icon():
+    return get_icon('logout_24dp_8b1a10_fill0_wght400_grad0_opsz24')
+
+def get_help_icon():
+    return get_icon('bug_report_24dp_8b1a10_fill0_wght400_grad0_opsz24')
+
+def restart_icon():
+    return get_icon('update_24dp_8b1a10_fill0_wght400_grad0_opsz24')
+

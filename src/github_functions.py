@@ -27,6 +27,18 @@ def github_connection():
         return Github(config['personal_access_token'], base_url=config['ghe_url'])
 
 
+def check_pat(pat, use_github, base_url):
+    try:
+        if use_github:
+            g = Github(pat)
+        else:
+            g = Github(pat, base_url=base_url)
+        g.get_user().login
+        return True
+    except Exception:
+        return False
+
+
 # load all repositories from the user
 def get_repos():
     # check if we should use github or ghe

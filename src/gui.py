@@ -10,7 +10,8 @@
 from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
                                QGridLayout, QLabel, QComboBox, QPushButton, 
                                QListWidget, QTextEdit, QLineEdit, QFrame,
-                               QDialog, QRadioButton, QCheckBox, QDialogButtonBox)
+                               QDialog, QRadioButton, QCheckBox, QDialogButtonBox,
+                               QMessageBox)
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap, QIcon
 
@@ -138,27 +139,28 @@ class MainWindow(QMainWindow):
         self.create_menu_bar()
     
     def create_menu_bar(self):
+        import icons
         menubar = self.menuBar()
         
         # File menu
         file_menu = menubar.addMenu("File")
-        close_action = file_menu.addAction("Close")
+        close_action = file_menu.addAction(icons.get_icon('logout_24dp_8b1a10_fill0_wght400_grad0_opsz24'), "Close")
         close_action.triggered.connect(self.fileClose)
         
         # Extras menu
         extras_menu = menubar.addMenu("Extras")
-        config_action = extras_menu.addAction("Configuration")
+        config_action = extras_menu.addAction(icons.get_icon('settings_24dp_8b1a10_fill0_wght400_grad0_opsz24'), "Configuration")
         config_action.triggered.connect(self.extrasConfiguration)
         
         # Help menu
         help_menu = menubar.addMenu("Help")
-        support_action = help_menu.addAction("Support...")
+        support_action = help_menu.addAction(icons.get_icon('globe_24dp_8B1A10_FILL0_wght400_GRAD0_opsz24'), "Support...")
         support_action.triggered.connect(self.helpSupport)
         
-        update_action = help_menu.addAction("Check for updates")
+        update_action = help_menu.addAction(icons.get_icon('update_24dp_8B1A10_FILL0_wght400_GRAD0_opsz24'), "Check for updates")
         update_action.triggered.connect(self.helpUpdate)
         
-        about_action = help_menu.addAction("About...")
+        about_action = help_menu.addAction(icons.get_icon('info_24dp_8B1A10_FILL0_wght400_GRAD0_opsz24'), "About...")
         about_action.triggered.connect(self.helpAbout)
 
 ###########################################################################
@@ -181,10 +183,23 @@ class ConfigurationDialog(QDialog):
         
         # Personal Access Token
         self.label_pat = QLabel("PersonalAccessToken")
+        pat_layout = QHBoxLayout()
         self.text_pat = QLineEdit()
-        self.text_pat.setMinimumWidth(400)
+        self.text_pat.setEchoMode(QLineEdit.Password)
+        self.text_pat.setMinimumWidth(350)
+        self.button_show_pat = QPushButton("Show")
+        self.button_show_pat.setMaximumWidth(50)
+        self.button_test_pat = QPushButton("Test")
+        self.button_test_pat.setMaximumWidth(50)
+        pat_layout.addWidget(self.text_pat)
+        pat_layout.addWidget(self.button_show_pat)
+        pat_layout.addWidget(self.button_test_pat)
         layout.addWidget(self.label_pat, 1, 0)
-        layout.addWidget(self.text_pat, 1, 1)
+        layout.addLayout(pat_layout, 1, 1)
+        
+        # Connect PAT buttons
+        self.button_show_pat.clicked.connect(self.toggle_pat_visibility)
+        self.button_test_pat.clicked.connect(self.test_pat)
         
         # GitHub.com radio button
         self.radio_github = QRadioButton("Github.com")
@@ -211,6 +226,17 @@ class ConfigurationDialog(QDialog):
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
         layout.addWidget(button_box, 6, 0, 1, 2)
+    
+    def toggle_pat_visibility(self):
+        if self.text_pat.echoMode() == QLineEdit.Password:
+            self.text_pat.setEchoMode(QLineEdit.Normal)
+            self.button_show_pat.setText("Hide")
+        else:
+            self.text_pat.setEchoMode(QLineEdit.Password)
+            self.button_show_pat.setText("Show")
+    
+    def test_pat(self):
+        pass  # To be implemented in derived class
 
 ###########################################################################
 ## Class AboutDialog

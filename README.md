@@ -42,4 +42,4 @@ The application has been migrated from wxPython to PySide6 for better cross-plat
 
 To run the PySide6 version:
 
-```python src/githubissueclient_pyside.py```
+```python src/githubissueclient.py```
