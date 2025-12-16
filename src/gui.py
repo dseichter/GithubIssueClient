@@ -171,31 +171,30 @@ class ConfigurationDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Configuration")
-        self.setFixedSize(400, 248)
+        self.setMinimumSize(500, 280)
         
         layout = QGridLayout(self)
+        layout.setColumnStretch(1, 1)
         
         # Username
         self.label_username = QLabel("Username")
         self.text_username = QLineEdit()
         layout.addWidget(self.label_username, 0, 0)
-        layout.addWidget(self.text_username, 0, 1)
+        layout.addWidget(self.text_username, 0, 1, 1, 2)
         
         # Personal Access Token
         self.label_pat = QLabel("PersonalAccessToken")
-        pat_layout = QHBoxLayout()
         self.text_pat = QLineEdit()
         self.text_pat.setEchoMode(QLineEdit.Password)
-        self.text_pat.setMinimumWidth(350)
         self.button_show_pat = QPushButton("Show")
-        self.button_show_pat.setMaximumWidth(50)
+        self.button_show_pat.setFixedWidth(60)
         self.button_test_pat = QPushButton("Test")
-        self.button_test_pat.setMaximumWidth(50)
-        pat_layout.addWidget(self.text_pat)
-        pat_layout.addWidget(self.button_show_pat)
-        pat_layout.addWidget(self.button_test_pat)
+        self.button_test_pat.setFixedWidth(60)
+        
         layout.addWidget(self.label_pat, 1, 0)
-        layout.addLayout(pat_layout, 1, 1)
+        layout.addWidget(self.text_pat, 1, 1)
+        layout.addWidget(self.button_show_pat, 1, 2)
+        layout.addWidget(self.button_test_pat, 1, 3)
         
         # Connect PAT buttons
         self.button_show_pat.clicked.connect(self.toggle_pat_visibility)
@@ -204,28 +203,27 @@ class ConfigurationDialog(QDialog):
         # GitHub.com radio button
         self.radio_github = QRadioButton("Github.com")
         self.radio_github.setChecked(True)
-        layout.addWidget(self.radio_github, 2, 0)
+        layout.addWidget(self.radio_github, 2, 0, 1, 2)
         
         # GitHub Enterprise radio button
         self.radio_ghe = QRadioButton("GitHub Enterprise")
-        layout.addWidget(self.radio_ghe, 3, 0)
+        layout.addWidget(self.radio_ghe, 3, 0, 1, 2)
         
         # GitHub Enterprise URL
         self.label_ghe_url = QLabel("GitHub Enterprise URL")
         self.text_ghe_url = QLineEdit()
-        self.text_ghe_url.setMinimumWidth(400)
         layout.addWidget(self.label_ghe_url, 4, 0)
-        layout.addWidget(self.text_ghe_url, 4, 1)
+        layout.addWidget(self.text_ghe_url, 4, 1, 1, 3)
         
         # Update check
         self.checkbox_update = QCheckBox("Check for updates on startup?")
-        layout.addWidget(self.checkbox_update, 5, 0, 1, 2)
+        layout.addWidget(self.checkbox_update, 5, 0, 1, 4)
         
         # Buttons
         button_box = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
-        layout.addWidget(button_box, 6, 0, 1, 2)
+        layout.addWidget(button_box, 6, 0, 1, 4)
     
     def toggle_pat_visibility(self):
         if self.text_pat.echoMode() == QLineEdit.Password:
