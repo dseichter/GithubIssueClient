@@ -3,7 +3,7 @@
 Create really simple a new task in your GitHub repositories with the **GitHub Issue Client**.
 
 <p align="center">
-  <img src="icons/home_app_logo_48dp_1976D2_FILL0_wght400_GRAD0_opsz48.png" alt="GithubIssueClient Logo"/>
+  <img src="icons/bug_report_48dp_8B1A10_FILL0_wght400_GRAD0_opsz48.png" alt="GithubIssueClient Logo"/>
 </p>
 
 <p align="center">
