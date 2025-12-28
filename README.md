@@ -13,7 +13,6 @@ Create really simple a new task in your GitHub repositories with the **GitHub Is
 </p>
 
 <p align="center">
-  <b><a href="https://dseichter.github.io/GithubIssueClient/">Documentation</a></b> •
   <b><a href="https://github.com/dseichter/GithubIssueClient/releases">Downloads</a></b> •
   <b><a href="https://github.com/dseichter/GithubIssueClient/issues">Issues</a></b>
 </p>
