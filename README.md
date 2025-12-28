@@ -1,13 +1,27 @@
 # GithubIssueClient
 
-Create really simple a new task in your GitHub repositories with the GitHub Issue Client.
+Create really simple a new task in your GitHub repositories with the **GitHub Issue Client**.
 
-[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/dseichter/GithubIssueClient/total)](https://github.com/dseichter/GithubIssueClient/releases)
+<p align="center">
+  <img src="icons/home_app_logo_48dp_1976D2_FILL0_wght400_GRAD0_opsz48.png" alt="GithubIssueClient Logo"/>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/v/release/dseichter/GithubIssueClient?style=flat-square" alt="Release">
+  <img src="https://img.shields.io/github/downloads/dseichter/GithubIssueClient/total?style=flat-square" alt="Downloads">
+  <img src="https://img.shields.io/github/license/dseichter/GithubIssueClient?style=flat-square" alt="License">
+</p>
+
+<p align="center">
+  <b><a href="https://dseichter.github.io/GithubIssueClient/">Documentation</a></b> •
+  <b><a href="https://github.com/dseichter/GithubIssueClient/releases">Downloads</a></b> •
+  <b><a href="https://github.com/dseichter/GithubIssueClient/issues">Issues</a></b>
+</p>
+
 ![ruff](https://github.com/dseichter/GithubIssueClient/actions/workflows/ruff.yml/badge.svg)
+![bandit](https://github.com/dseichter/GithubIssueClient/actions/workflows/bandit.yml/badge.svg)
 ![trivy](https://github.com/dseichter/GithubIssueClient/actions/workflows/trivy.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=dseichter_GithubIssueClient&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=dseichter_GithubIssueClient)
-
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=dseichter_GithubIssueClient)
 
 ## About
 
