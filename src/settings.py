@@ -33,7 +33,7 @@ def create_config():
     if 'username' not in data:
         data['username'] = ''
     if 'personal_access_token' not in data:
-        data['personal_access_token'] = ''
+        data['personal_access_token'] = ''  # nosec B105
     if 'use_github' not in data:
         data['use_github'] = True
     if 'use_ghe' not in data:
