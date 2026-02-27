@@ -72,11 +72,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-windows-binary, build-linux-binary]
     steps:
-        - uses: actions/download-artifact@v7
+        - uses: actions/download-artifact@v8
           with:
             name: githubissueclient-linux-${{ github.ref_name }}
 
-        - uses: actions/download-artifact@v7
+        - uses: actions/download-artifact@v8
           with:
             name: githubissueclient-windows-${{ github.ref_name }}.exe
 
