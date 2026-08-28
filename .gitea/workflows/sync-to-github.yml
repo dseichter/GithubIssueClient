@@ -20,9 +20,9 @@ jobs:
           GITHUB_PAT: ${{ secrets.PAT_TOKEN }}
         run: |
           GITHUB_USER="dseichter"
-          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          REPO_NAME=$(echo "dev/GithubIssueClient" | cut -d'/' -f2)
 
-          REMOTE_URL="https://x-access-token:${GITHUB_PAT}@github.com{GITHUB_USER}/${REPO_NAME}.git"
+          REMOTE_URL="https://x-access-token:${GITHUB_PAT}@://github.com{GITHUB_USER}/${REPO_NAME}.git"
 
           git remote add github "$REMOTE_URL"
           
