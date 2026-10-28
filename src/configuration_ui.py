@@ -14,10 +14,11 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 from PySide6.QtWidgets import QMessageBox
-from gui import ConfigurationDialog
-import settings
-import icons
+
 import github_functions
+import icons
+import settings
+from gui import ConfigurationDialog
 
 
 class DialogConfiguration(ConfigurationDialog):

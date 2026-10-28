@@ -15,16 +15,20 @@
 
 import sys
 import webbrowser
-from PySide6.QtWidgets import QApplication, QMessageBox
-from PySide6.QtGui import QFont
 
-import gui
+from github import GithubException
+from PySide6.QtGui import QFont
+from PySide6.QtWidgets import QApplication, QMessageBox
+from requests.exceptions import RequestException
+
 import about_ui
 import configuration_ui
-import settings
+import github_functions
+import gui
 import helper
 import icons
-import github_functions
+import settings
+
 
 class GitHubIssueClientFrame(gui.MainWindow):
     def __init__(self, parent=None):
@@ -66,9 +70,9 @@ class GitHubIssueClientFrame(gui.MainWindow):
             return
         
         # Test PAT validity
-        try:
-            github_functions.check_pat(config['personal_access_token'], config['use_github'], config['ghe_url'])
-        except Exception:
+        if not github_functions.check_pat(
+            config['personal_access_token'], config['use_github'], config['ghe_url']
+        ):
             QMessageBox.critical(self, 'Invalid Credentials', 
                                'Your Personal Access Token appears to be invalid.\n\n'
                                'Please check your configuration.')
@@ -77,12 +81,11 @@ class GitHubIssueClientFrame(gui.MainWindow):
         
         self.load_repositories()
         
-        if settings.read_config()['update_check']:
-            if helper.check_for_new_release():
-                reply = QMessageBox.question(self, 'Update available',
-                                           'A new release is available.\nWould you like to open the download page?')
-                if reply == QMessageBox.Yes:
-                    webbrowser.open_new_tab(helper.RELEASES)
+        if settings.read_config()['update_check'] and helper.check_for_new_release():
+            reply = QMessageBox.question(self, 'Update available',
+                                       'A new release is available.\nWould you like to open the download page?')
+            if reply == QMessageBox.Yes:
+                webbrowser.open_new_tab(helper.RELEASES)
 
     def show_configuration(self):
         dlg = configuration_ui.DialogConfiguration(self)
@@ -110,8 +113,8 @@ class GitHubIssueClientFrame(gui.MainWindow):
             repos = github_functions.get_repos()
             for repo in repos:
                 self.combobox_repositories.addItem(repo.full_name)
-        except Exception as e:
-            QMessageBox.critical(self, 'Error', f'Failed to load repositories: {str(e)}')
+        except (GithubException, RequestException) as e:
+            QMessageBox.critical(self, 'Error', f'Failed to load repositories: {e!s}')
 
     def load_repository_data(self):
         repo = self.combobox_repositories.currentText()
@@ -142,8 +145,8 @@ class GitHubIssueClientFrame(gui.MainWindow):
             templates = github_functions.get_issue_templates(repo)
             for template in templates:
                 self.combobox_templates.addItem(template)
-        except Exception as e:
-            QMessageBox.warning(self, 'Warning', f'Failed to load repository data: {str(e)}')
+        except (GithubException, RequestException) as e:
+            QMessageBox.warning(self, 'Warning', f'Failed to load repository data: {e!s}')
 
     def load_issue_template(self):
         template = self.combobox_templates.currentText()
@@ -152,15 +155,15 @@ class GitHubIssueClientFrame(gui.MainWindow):
             try:
                 content = github_functions.get_issue_template(repo, template)
                 self.text_content.setPlainText(content)
-            except Exception as e:
-                QMessageBox.warning(self, 'Warning', f'Failed to load template: {str(e)}')
+            except (GithubException, RequestException) as e:
+                QMessageBox.warning(self, 'Warning', f'Failed to load template: {e!s}')
 
     def open_repository(self):
         try:
             repo = github_functions.get_repo(self.combobox_repositories.currentText())
             webbrowser.open_new_tab(repo.html_url)
-        except Exception as e:
-            QMessageBox.warning(self, 'Warning', f'Failed to open repository: {str(e)}')
+        except (GithubException, RequestException, webbrowser.Error) as e:
+            QMessageBox.warning(self, 'Warning', f'Failed to open repository: {e!s}')
 
     def submit_issue(self):
         reponame = self.combobox_repositories.currentText()
@@ -194,8 +197,8 @@ class GitHubIssueClientFrame(gui.MainWindow):
             else:
                 QMessageBox.critical(self, 'Error', 'Error creating issue.')
             self.reset_ui()
-        except Exception as e:
-            QMessageBox.critical(self, 'Error', f'Failed to create issue: {str(e)}')
+        except (GithubException, RequestException) as e:
+            QMessageBox.critical(self, 'Error', f'Failed to create issue: {e!s}')
 
     def reset_ui(self):
         self.load_repository_data()

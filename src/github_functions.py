@@ -13,8 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+from github import Github, GithubException
+from requests.exceptions import RequestException
+
 import settings
-from github import Github
 
 
 def github_connection():
@@ -33,9 +35,9 @@ def check_pat(pat, use_github, base_url):
             g = Github(pat)
         else:
             g = Github(pat, base_url=base_url)
-        g.get_user().login
+        _ = g.get_user().login
         return True
-    except Exception:
+    except (GithubException, RequestException):
         return False
 
 
@@ -117,7 +119,7 @@ def get_issue_template(repo, template):
     return '\n'.join(lines)
 
 
-def create_issue(repo='', title='', body='', labels=[], assignee=None, milestone=None):
+def create_issue(repo='', title='', body='', labels=None, assignee=None, milestone=None):
     g = github_connection()
     # add to parameters, if assignee is set
     arguments = {}

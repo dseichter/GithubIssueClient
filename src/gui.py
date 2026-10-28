@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 ###########################################################################
 ## Python code generated for PySide6 migration
@@ -7,11 +6,25 @@
 ## PLEASE DO *NOT* EDIT THIS FILE!
 ###########################################################################
 
-from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
-                               QGridLayout, QLabel, QComboBox, QPushButton, 
-                               QListWidget, QTextEdit, QLineEdit, QFrame,
-                               QDialog, QRadioButton, QCheckBox, QDialogButtonBox)
 from PySide6.QtCore import Signal
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
+    QDialog,
+    QDialogButtonBox,
+    QFrame,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QMainWindow,
+    QPushButton,
+    QRadioButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 ###########################################################################
 ## Class MainWindow

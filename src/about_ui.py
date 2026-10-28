@@ -14,9 +14,10 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 import webbrowser
-from gui import AboutDialog
+
 import helper
 import icons
+from gui import AboutDialog
 
 
 class DialogAbout(AboutDialog):
